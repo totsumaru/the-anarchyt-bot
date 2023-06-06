@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  go:
+    image: the-anarchy-bot-go
+    container_name: the-anarchy-bot-go
+    build: .
+    volumes:
+      - "./:/go/src"
+    tty: true
+    restart: always
