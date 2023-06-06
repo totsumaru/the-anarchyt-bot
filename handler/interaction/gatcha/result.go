@@ -46,7 +46,7 @@ func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 	}
 
 	resp := &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Type: discordgo.InteractionResponseUpdateMessage,
 		Data: &discordgo.InteractionResponseData{
 			Embeds: []*discordgo.MessageEmbed{embed},
 			Flags:  discordgo.MessageFlagsEphemeral,
