@@ -1,4 +1,4 @@
-package message
+package rule
 
 import (
 	"github.com/bwmarrin/discordgo"
