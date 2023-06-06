@@ -11,14 +11,7 @@ import (
 
 // 結果を送信します
 func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	if !hasTicketRole(i.Member.Roles) {
-		if err := sendHasNotTicketErr(s, i); err != nil {
-			return errors.NewError("チケット未保持エラーを送信できません", err)
-		}
-		return nil
-	}
-
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	if isWinner() {
 		return sendWinnerMessage(s, i)
