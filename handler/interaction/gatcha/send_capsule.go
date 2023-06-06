@@ -4,12 +4,20 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
+	"os"
 	"time"
 )
 
 // カプセルのメッセージを送信します
 func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	time.Sleep(2 * time.Second)
+	if !hasTicketRole(i.Member.Roles) {
+		if err := sendHasNotTicketErr(s, i); err != nil {
+			return errors.NewError("チケット未保持エラーを送信できません", err)
+		}
+		return nil
+	}
+
+	time.Sleep(1 * time.Second)
 
 	btn1 := discordgo.Button{
 		Label:    "カプセルを開ける",
@@ -41,6 +49,42 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			Components: []discordgo.MessageComponent{actions},
 			Embeds:     []*discordgo.MessageEmbed{embed},
 			Flags:      discordgo.MessageFlagsEphemeral,
+		},
+	}
+
+	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
+		return errors.NewError("レスポンスを送信できません", err)
+	}
+
+	return nil
+}
+
+// チケットロールを保持しているか確認します
+func hasTicketRole(roles []string) bool {
+	ticketRoleID := os.Getenv("TICKET_ROLE_ID")
+
+	for _, role := range roles {
+		if role == ticketRoleID {
+			return true
+		}
+	}
+
+	return false
+}
+
+// チケット未保持エラーを送信します
+func sendHasNotTicketErr(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+	embed := &discordgo.MessageEmbed{
+		Title:       "ERROR",
+		Description: "チケットロールを保持していません。",
+		Color:       internal.ColorRed,
+	}
+
+	resp := &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Embeds: []*discordgo.MessageEmbed{embed},
+			Flags:  discordgo.MessageFlagsEphemeral,
 		},
 	}
 

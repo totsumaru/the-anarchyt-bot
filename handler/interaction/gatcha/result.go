@@ -11,9 +11,16 @@ import (
 
 // 結果を送信します
 func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	isWinner := tenPercentChance()
+	if !hasTicketRole(i.Member.Roles) {
+		if err := sendHasNotTicketErr(s, i); err != nil {
+			return errors.NewError("チケット未保持エラーを送信できません", err)
+		}
+		return nil
+	}
 
-	if isWinner {
+	time.Sleep(1 * time.Second)
+
+	if isWinner() {
 		return sendWinnerMessage(s, i)
 	} else {
 		return sendLoserMessage(s, i)
@@ -22,8 +29,6 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 
 // 当たりの場合のメッセージを送信します
 func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	time.Sleep(2 * time.Second)
-
 	// ロールを付与します
 	if err := addWinnerRole(s, i); err != nil {
 		return errors.NewError("ロールを付与できません", err)
@@ -62,7 +67,6 @@ func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 
 // ハズレの場合のメッセージを送信します
 func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	time.Sleep(2 * time.Second)
 	description := `
 
 「ハズレ」
@@ -122,7 +126,7 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 }
 
 // 当たり判定をします
-func tenPercentChance() bool {
+func isWinner() bool {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(10) == 0
 }
