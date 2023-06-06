@@ -14,7 +14,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	prizeRoleID := os.Getenv("PRIZE_ROLE1_ID")
 
 	btn1 := discordgo.Button{
-		Label:    "ガチャを引く",
+		Label:    "ガチャを回す",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_gatcha_Go,
 	}
@@ -24,7 +24,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	}
 
 	description := `
-1日に1回、ガチャが引けます🎲
+1日に1回、ガチャを回せます🎲
 毎日チャレンジしてみてね！！
 
 - <@&%s>を持っていれば参加OK（チケットは毎日1枚プレゼント）
@@ -50,6 +50,11 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	_, err := s.ChannelMessageSendComplex(m.ChannelID, data)
 	if err != nil {
 		return errors.NewError("パネルメッセージを送信できません", err)
+	}
+
+	// コマンドメッセージを削除
+	if err = s.ChannelMessageDelete(m.ChannelID, m.ID); err != nil {
+		return errors.NewError("コマンドメッセージを削除できません", err)
 	}
 
 	return nil
