@@ -56,6 +56,12 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		return errors.NewError("レスポンスを送信できません", err)
 	}
 
+	// チケットロールを削除
+	ticketRoleID := os.Getenv("TICKET_ROLE_ID")
+	if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, ticketRoleID); err != nil {
+		return errors.NewError("チケットロールを削除できません", err)
+	}
+
 	return nil
 }
 
