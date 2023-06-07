@@ -10,7 +10,7 @@ import (
 // パネルを送信します
 func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	btn1 := discordgo.Button{
-		Label:    "ガチャを回す",
+		Label:    "ガチャを回す（1日1回）",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_gatcha_Go,
 	}
