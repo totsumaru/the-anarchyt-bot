@@ -6,6 +6,7 @@ const (
 	CMD_Send_gatcha_Panel           = "!an-gatcha-panel" // ガチャのパネル
 	CMD_Send_gatcha_Add_Ticket_Role = "!an-add-role"     // チケットルール付与
 	CMD_Send_verify_Panel           = "!an-verify-panel" // Verifyのパネル
+	CMD_Create_Invitation           = "!an-invitation"   // 招待リンク発行
 )
 
 // InteractionのカスタムID
