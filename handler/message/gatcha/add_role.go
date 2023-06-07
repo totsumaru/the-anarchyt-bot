@@ -6,7 +6,7 @@ import (
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
-// @Verifiedを持っている全員に@ガチャチケットを付与します
+// @Verifiedを持っている全員に@ガチャ券を付与します
 //
 // #logsでのみ起動します。
 func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {

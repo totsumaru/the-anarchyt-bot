@@ -1,6 +1,7 @@
 package gatcha
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -81,13 +82,13 @@ func hasTicketRole(roles []string) bool {
 // チケット未保持エラーを送信します
 func sendHasNotTicketErr(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	description := `
-チケットロールがありません。
+<@&%s>をもっていません。
 
 毎日1枚もらえるので、また明日チャレンジしてみてね！
 `
 	embed := &discordgo.MessageEmbed{
 		Title:       "ERROR",
-		Description: description,
+		Description: fmt.Sprintf(description, internal.RoleID().TICKET),
 		Color:       internal.ColorRed,
 	}
 
