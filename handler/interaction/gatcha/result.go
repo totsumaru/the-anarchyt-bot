@@ -1,6 +1,7 @@
 package gatcha
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -64,10 +65,11 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 「ハズレ」
 
 また明日チャレンジしてみてね！
+もしよければ、<#%s>にもコメントお願いします👋
 `
 
 	embed := &discordgo.MessageEmbed{
-		Description: description,
+		Description: fmt.Sprintf(description, internal.ChannelID().),
 		Color:       internal.ColorBlue,
 	}
 

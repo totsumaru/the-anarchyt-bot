@@ -7,6 +7,7 @@ type Channel struct {
 	TEST            string
 	INVITATION_LINK string
 	GATCHA          string
+	CHAT            string
 }
 
 func ChannelID() Channel {
@@ -17,6 +18,7 @@ func ChannelID() Channel {
 			TEST:            "1069459007321952316",
 			INVITATION_LINK: "1112585199373520916",
 			GATCHA:          "1115532111693238272",
+			CHAT:            "1112319028225130607",
 		}
 	} else {
 		// 本番環境
@@ -25,6 +27,7 @@ func ChannelID() Channel {
 			TEST:            "1069459007321952316",
 			INVITATION_LINK: "1112585199373520916",
 			GATCHA:          "1115532111693238272",
+			CHAT:            "1112319028225130607",
 		}
 	}
 }
