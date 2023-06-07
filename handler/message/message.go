@@ -5,6 +5,7 @@ import (
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/message/rule"
+	"github.com/techstart35/the-anarchy-bot/handler/message/verify"
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
@@ -21,6 +22,10 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	case internal.CMD_Send_gatcha_Panel:
 		if err := gatcha.SendPanel(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("パネルを送信できません", err))
+		}
+	case internal.CMD_Send_verify_Panel:
+		if err := verify.SendPanel(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("パネルを送信できません", err))
 		}
 	}

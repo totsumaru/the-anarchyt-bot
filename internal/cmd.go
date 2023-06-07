@@ -2,17 +2,17 @@ package internal
 
 // メッセージコマンド
 const (
-	// ルール
-	CMD_Send_Rule = "!an-rule"
-
-	// ガチャ
-	CMD_Send_gatcha_Panel           = "!an-gatcha-panel"
-	CMD_Send_gatcha_Add_Ticket_Role = "!an-add-role"
+	CMD_Send_Rule                   = "!an-rule"         // ルール
+	CMD_Send_gatcha_Panel           = "!an-gatcha-panel" // ガチャのパネル
+	CMD_Send_gatcha_Add_Ticket_Role = "!an-add-role"     // チケットルール付与
+	CMD_Send_verify_Panel           = "!an-verify-panel" // Verifyのパネル
 )
 
 // InteractionのカスタムID
 const (
-	// ガチャを回す
+	// ガチャ
 	Interaction_CustomID_gatcha_Go   = "gatcha-go"
 	Interaction_CustomID_gatcha_Open = "gatcha-open"
+	// Verify
+	Interaction_CustomID_Verify = "verify"
 )
