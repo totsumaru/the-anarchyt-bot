@@ -5,7 +5,6 @@ import (
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/message/invitation"
-	"github.com/techstart35/the-anarchy-bot/handler/message/member"
 	"github.com/techstart35/the-anarchy-bot/handler/message/rule"
 	"github.com/techstart35/the-anarchy-bot/handler/message/verify"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -33,10 +32,6 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	case internal.CMD_Create_Invitation:
 		if err := invitation.CreateInvitation(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("招待を作成できません", err))
-		}
-	case internal.CMD_Member:
-		if err := member.Member(s, m); err != nil {
-			errors.SendErrMsg(s, errors.NewError("参加人数を取得できません", err))
 		}
 	}
 }
