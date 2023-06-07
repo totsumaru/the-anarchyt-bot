@@ -9,7 +9,7 @@ import (
 // パネルを送信します
 func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	btn1 := discordgo.Button{
-		Label:    "入場",
+		Label:    "入場する",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_Verify,
 	}
