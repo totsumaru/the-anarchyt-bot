@@ -8,6 +8,7 @@ type Channel struct {
 	INVITATION_LINK string
 	GATCHA          string
 	CHAT            string
+	SNEAK_PEEK      string
 }
 
 func ChannelID() Channel {
@@ -19,6 +20,7 @@ func ChannelID() Channel {
 			INVITATION_LINK: "1112585199373520916",
 			GATCHA:          "1115532111693238272",
 			CHAT:            "1112319028225130607",
+			SNEAK_PEEK:      "1112524163643621379",
 		}
 	} else {
 		// 本番環境
@@ -28,6 +30,7 @@ func ChannelID() Channel {
 			INVITATION_LINK: "1112585199373520916",
 			GATCHA:          "1115532111693238272",
 			CHAT:            "1112319028225130607",
+			SNEAK_PEEK:      "1112524163643621379",
 		}
 	}
 }
