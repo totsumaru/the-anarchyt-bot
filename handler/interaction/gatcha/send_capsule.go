@@ -80,9 +80,14 @@ func hasTicketRole(roles []string) bool {
 
 // チケット未保持エラーを送信します
 func sendHasNotTicketErr(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+	description := `
+チケットロールがありません。
+
+毎日1枚もらえるので、また明日チャレンジしてみてね！
+`
 	embed := &discordgo.MessageEmbed{
 		Title:       "ERROR",
-		Description: "チケットロールを保持していません。",
+		Description: description,
 		Color:       internal.ColorRed,
 	}
 
