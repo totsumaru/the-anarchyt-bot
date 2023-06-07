@@ -30,7 +30,7 @@ func Transfer(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		Embed:   embed,
 	}
 
-	_, err := s.ChannelMessageSendComplex(m.ChannelID, data)
+	_, err := s.ChannelMessageSendComplex(internal.ChannelID().CHAT, data)
 	if err != nil {
 		return errors.NewError("パネルメッセージを送信できません", err)
 	}
