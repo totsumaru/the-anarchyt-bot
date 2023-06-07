@@ -6,7 +6,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/internal"
 	"log"
-	"os"
 	"path/filepath"
 	"runtime"
 	"time"
@@ -20,7 +19,6 @@ type Error struct {
 
 // エラーメッセージを送信します
 func SendErrMsg(s *discordgo.Session, e error) {
-	errLogChannelID := os.Getenv("ERR_LOG_CHANNEL_ID")
 	totsumaruID := "960104306151948328"
 
 	embed := &discordgo.MessageEmbed{
@@ -35,7 +33,7 @@ func SendErrMsg(s *discordgo.Session, e error) {
 		Embed:   embed,
 	}
 
-	_, err := s.ChannelMessageSendComplex(errLogChannelID, data)
+	_, err := s.ChannelMessageSendComplex(internal.ChannelID().LOGS, data)
 	if err != nil {
 		log.Println(err)
 	}

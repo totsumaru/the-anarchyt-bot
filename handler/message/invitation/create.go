@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
-	"os"
+	"github.com/techstart35/the-anarchy-bot/internal"
 	"strings"
 	"time"
 )
@@ -14,8 +14,7 @@ import (
 // - 7日間
 func CreateInvitation(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	// 管理者のチャンネルのみで実行可能
-	adminCmdChannelID := os.Getenv("ADMIN_CHANNEL_ID")
-	if m.ChannelID != adminCmdChannelID {
+	if m.ChannelID != internal.ChannelID().TEST {
 		return nil
 	}
 
@@ -37,7 +36,6 @@ func CreateInvitation(s *discordgo.Session, m *discordgo.MessageCreate) error {
 `
 
 	urls := make([]string, 0)
-	ivChID := os.Getenv("INVITATION_LINK_CHANNEL_ID")
 
 	// 10個のリンクを発行します
 	for i := 0; i < 10; i++ {
@@ -48,7 +46,7 @@ func CreateInvitation(s *discordgo.Session, m *discordgo.MessageCreate) error {
 			Temporary: false,
 		}
 
-		invite, err := s.ChannelInviteCreate(ivChID, iv)
+		invite, err := s.ChannelInviteCreate(internal.ChannelID().INVITATION_LINK, iv)
 		if err != nil {
 			return errors.NewError("招待リンクを作成できません", err)
 		}

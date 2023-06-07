@@ -3,14 +3,14 @@ package gatcha
 import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
-	"os"
+	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
 // @Verifiedを持っている全員に@ガチャチケットを付与します
 //
 // #logsでのみ起動します。
 func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	if m.ChannelID != os.Getenv("LOGS_CHANNEL_ID") {
+	if m.ChannelID != internal.ChannelID().LOGS {
 		return nil
 	}
 
@@ -19,18 +19,15 @@ func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		return errors.NewError("進捗メッセージを送信できません", err)
 	}
 
-	verifiedRoleID := os.Getenv("VERIFIED_ROLE_ID")
-	users, err := getUsersWithRole(s, m.GuildID, verifiedRoleID)
+	users, err := getUsersWithRole(s, m.GuildID, internal.RoleID().VERIFIED)
 	if err != nil {
 		return errors.NewError("特定のロールを持つユーザーを取得できません", err)
 	}
 
 	for _, user := range users {
-		ticketRoleID := os.Getenv("TICKET_ROLE_ID")
-
 		// ユーザーにロールを付与します
-		if ticketRoleID != "" {
-			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, ticketRoleID); err != nil {
+		if internal.RoleID().TICKET != "" {
+			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, internal.RoleID().TICKET); err != nil {
 				return errors.NewError("ロールを付与できません", err)
 			}
 		}

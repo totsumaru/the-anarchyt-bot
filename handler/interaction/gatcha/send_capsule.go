@@ -4,7 +4,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"os"
 	"time"
 )
 
@@ -57,8 +56,11 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	// チケットロールを削除
-	ticketRoleID := os.Getenv("TICKET_ROLE_ID")
-	if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, ticketRoleID); err != nil {
+	if err := s.GuildMemberRoleRemove(
+		i.GuildID,
+		i.Member.User.ID,
+		internal.RoleID().TICKET,
+	); err != nil {
 		return errors.NewError("チケットロールを削除できません", err)
 	}
 
@@ -67,10 +69,8 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 
 // チケットロールを保持しているか確認します
 func hasTicketRole(roles []string) bool {
-	ticketRoleID := os.Getenv("TICKET_ROLE_ID")
-
 	for _, role := range roles {
-		if role == ticketRoleID {
+		if role == internal.RoleID().TICKET {
 			return true
 		}
 	}

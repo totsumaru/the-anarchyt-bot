@@ -5,7 +5,6 @@ import (
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -89,28 +88,26 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 
 // ロールを付与します
 func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	prizeRole1ID := os.Getenv("PRIZE_ROLE1_ID")
-	prizeRole2ID := os.Getenv("PRIZE_ROLE2_ID")
-	prizeRole3ID := os.Getenv("PRIZE_ROLE3_ID")
-
 	var hasRoleNum int
 	for _, role := range i.Member.Roles {
-		if role == prizeRole1ID || role == prizeRole2ID || role == prizeRole3ID {
+		if role == internal.RoleID().PRIZE1 ||
+			role == internal.RoleID().PRIZE2 ||
+			role == internal.RoleID().PRIZE3 {
 			hasRoleNum++
 		}
 	}
 
 	switch hasRoleNum {
 	case 0:
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, prizeRole1ID); err != nil {
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE1); err != nil {
 			return errors.NewError("ロールを付与できません", err)
 		}
 	case 1:
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, prizeRole2ID); err != nil {
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE2); err != nil {
 			return errors.NewError("ロールを付与できません", err)
 		}
 	case 2:
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, prizeRole3ID); err != nil {
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE3); err != nil {
 			return errors.NewError("ロールを付与できません", err)
 		}
 	}
