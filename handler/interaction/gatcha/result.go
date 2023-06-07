@@ -65,7 +65,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 「ハズレ」
 
 また明日チャレンジしてみてね！
-もしよければ、<#%s>にもコメントお願いします👋
+もしよければ、<#%s>にもコメントしてね👋
 `
 
 	embed := &discordgo.MessageEmbed{
