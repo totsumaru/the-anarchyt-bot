@@ -69,7 +69,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 `
 
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, internal.ChannelID().),
+		Description: fmt.Sprintf(description, internal.ChannelID().CHAT),
 		Color:       internal.ColorBlue,
 	}
 
