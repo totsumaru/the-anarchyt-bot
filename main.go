@@ -14,7 +14,7 @@ import (
 func init() {
 	godotenv.Load(".env")
 
-	location := os.Getenv("TZ")
+	location := "Asia/Tokyo"
 	loc, err := time.LoadLocation(location)
 	if err != nil {
 		loc = time.FixedZone(location, 9*60*60)
