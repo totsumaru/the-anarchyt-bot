@@ -38,7 +38,7 @@ func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 	embed := &discordgo.MessageEmbed{
 		Description: description,
 		Image: &discordgo.MessageEmbedImage{
-			URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1115604196473966633/2023-06-06_20.31.42.png",
+			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312750277263390/atari.png",
 		},
 		Color: internal.ColorBlue,
 	}
@@ -70,7 +70,10 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 
 	embed := &discordgo.MessageEmbed{
 		Description: fmt.Sprintf(description, internal.ChannelID().CHAT),
-		Color:       internal.ColorBlue,
+		Image: &discordgo.MessageEmbedImage{
+			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312806598389771/hazure.png",
+		},
+		Color: internal.ColorBlue,
 	}
 
 	resp := &discordgo.InteractionResponse{

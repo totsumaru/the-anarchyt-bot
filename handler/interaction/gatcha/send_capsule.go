@@ -38,7 +38,7 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Description: description,
 		Image: &discordgo.MessageEmbedImage{
-			URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1115604195991629874/2023-06-06_20.28.23.png",
+			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312679884259338/open.png",
 		},
 		Color: internal.ColorBlue,
 	}
