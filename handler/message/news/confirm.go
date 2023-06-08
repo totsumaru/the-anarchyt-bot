@@ -47,7 +47,7 @@ func Confirm(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Title:       title,
 		Description: content,
-		Color:       internal.ColorBlue,
+		Color:       internal.ColorOrange,
 		Timestamp:   time.Now().Format("2006-01-02T15:04:05+09:00"),
 	}
 	if url != "" {
