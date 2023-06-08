@@ -16,12 +16,16 @@ func Confirm(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 	components := strings.Split(m.Content, "$")
 
-	title := components[0]
-	content := components[1]
+	if len(components) < 2 {
+		return nil
+	}
+
+	title := components[1]
+	content := components[2]
 	url := ""
 
-	if len(components) > 2 {
-		url = components[2]
+	if len(components) > 3 {
+		url = components[3]
 	}
 
 	btn1 := discordgo.Button{
@@ -43,11 +47,14 @@ func Confirm(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Title:       title,
 		Description: content,
-		Image: &discordgo.MessageEmbedImage{
+		Color:       internal.ColorBlue,
+		Timestamp:   time.Now().Format("2006-01-02T15:04:05+09:00"),
+	}
+	if url != "" {
+		img := &discordgo.MessageEmbedImage{
 			URL: url,
-		},
-		Color:     internal.ColorBlue,
-		Timestamp: time.Now().Format("2006-01-02T15:04:05+09:00"),
+		}
+		embed.Image = img
 	}
 
 	data := &discordgo.MessageSend{

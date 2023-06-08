@@ -9,6 +9,7 @@ type Channel struct {
 	GATCHA          string
 	CHAT            string
 	SNEAK_PEEK      string
+	NEWS            string
 }
 
 func ChannelID() Channel {
@@ -21,6 +22,7 @@ func ChannelID() Channel {
 			GATCHA:          "1115532111693238272",
 			CHAT:            "1112319028225130607",
 			SNEAK_PEEK:      "1112524163643621379",
+			NEWS:            "1116286793327841301",
 		}
 	} else {
 		// 本番環境
@@ -31,6 +33,7 @@ func ChannelID() Channel {
 			GATCHA:          "1115532111693238272",
 			CHAT:            "1112319028225130607",
 			SNEAK_PEEK:      "1112524163643621379",
+			NEWS:            "1116286793327841301",
 		}
 	}
 }
