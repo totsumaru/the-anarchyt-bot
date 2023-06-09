@@ -11,7 +11,7 @@ import (
 
 // 結果を送信します
 func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 
 	if isWinner() {
 		return sendWinnerMessage(s, i)
