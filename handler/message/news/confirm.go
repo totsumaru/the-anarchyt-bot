@@ -47,7 +47,7 @@ func Confirm(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 	embed := &discordgo.MessageEmbed{
 		Title:       title,
-		Description: fmt.Sprintf("--- NEWS ---\n%s", content),
+		Description: fmt.Sprintf("-----------\n%s", content),
 		Color:       internal.ColorOrange,
 		Timestamp:   time.Now().Format("2006-01-02T15:04:05+09:00"),
 	}
