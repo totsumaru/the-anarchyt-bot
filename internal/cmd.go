@@ -8,6 +8,7 @@ const (
 	CMD_Send_verify_Panel           = "!an-verify-panel" // Verifyのパネル
 	CMD_Create_Invitation           = "!an-invitation"   // 招待リンク発行
 	CMD_News                        = "!an-news"         // ニュース
+	CMD_Link                        = "!an-link"         // 公式リンクを送信
 )
 
 // InteractionのカスタムID
