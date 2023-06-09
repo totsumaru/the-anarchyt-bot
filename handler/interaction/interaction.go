@@ -4,6 +4,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/gatcha"
+	"github.com/techstart35/the-anarchy-bot/handler/interaction/invitation"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/news"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/verify"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -37,6 +38,11 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 		case internal.Interaction_CustomID_News_Send:
 			if err := news.Transfer(s, i); err != nil {
 				errors.SendErrMsg(s, errors.NewError("メッセージを転送できません", err))
+				return
+			}
+		case internal.Interaction_CustomID_Invitation:
+			if err := invitation.ReplyLink(s, i); err != nil {
+				errors.SendErrMsg(s, errors.NewError("招待リンクを発行できません", err))
 				return
 			}
 		}

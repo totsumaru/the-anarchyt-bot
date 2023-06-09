@@ -9,10 +9,10 @@ import (
 	"time"
 )
 
-// 招待を作成します
+// 管理者用の招待を作成します
 // - 1回のみ
 // - 7日間
-func CreateInvitation(s *discordgo.Session, m *discordgo.MessageCreate) error {
+func CreateInvitationForAdmin(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	// 管理者のチャンネルのみで実行可能
 	if m.ChannelID != internal.ChannelID().TEST {
 		return nil

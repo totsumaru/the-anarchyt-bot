@@ -33,12 +33,16 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 		return
 	case internal.CMD_Create_Invitation:
-		if err := invitation.CreateInvitation(s, m); err != nil {
+		if err := invitation.CreateInvitationForAdmin(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("招待を作成できません", err))
 		}
 	case internal.CMD_Link:
 		if err := link.SendPublicURL(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("公式リンクを送信できません", err))
+		}
+	case internal.CMD_Send_Invitation_Panel:
+		if err := invitation.SendPanel(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("招待リンク発行のパネルを送信できません", err))
 		}
 		return
 	}
