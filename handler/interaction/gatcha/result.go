@@ -92,6 +92,8 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 }
 
 // ロールを付与します
+//
+// 当たり,招待券を付与します。
 func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	var hasRoleNum int
 	for _, role := range i.Member.Roles {
@@ -115,6 +117,14 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE3); err != nil {
 			return errors.NewError("ロールを付与できません", err)
 		}
+	}
+
+	// 招待券を付与します
+	if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().INVITATION1); err != nil {
+		return errors.NewError("ロールを付与できません", err)
+	}
+	if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().INVITATION2); err != nil {
+		return errors.NewError("ロールを付与できません", err)
 	}
 
 	return nil
