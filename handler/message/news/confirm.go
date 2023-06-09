@@ -1,6 +1,7 @@
 package news
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -46,7 +47,7 @@ func Confirm(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 	embed := &discordgo.MessageEmbed{
 		Title:       title,
-		Description: content,
+		Description: fmt.Sprintf("--- NEWS ---\n%s", content),
 		Color:       internal.ColorOrange,
 		Timestamp:   time.Now().Format("2006-01-02T15:04:05+09:00"),
 	}
