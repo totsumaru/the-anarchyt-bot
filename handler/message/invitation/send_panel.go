@@ -26,8 +26,8 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 - <@&%s>を保持
 
 ✅️招待リンクについて
-- 招待人数： 1人のみ
-- 有効期限： 発行から7日間
+- **1人のみ** 招待可
+- 発行から **7日間** 有効
 
 ✅️招待券の取得方法
 <#%s>で当たると招待券が2枚をもらえます。
