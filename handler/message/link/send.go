@@ -8,7 +8,7 @@ import (
 
 type Link struct {
 	Name     string
-	URL      string
+	Content  string
 	ImageURL string
 }
 
@@ -17,12 +17,12 @@ func SendPublicURL(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	links := []Link{
 		{
 			Name:     "OpenSea",
-			URL:      "https://opensea.io/collection/tokyoanarchy",
+			Content:  "[TOKYO ANARCHY] \n https://opensea.io/collection/tokyoanarchy",
 			ImageURL: "https://i.seadn.io/gae/TobG0yEHvcmk2u3UxfHaUFrWtAFbOLhFgbtT3Kir_2Fk8Y27km8MHGwXheQ4XTPnwMHFxDdZ_XGYACzBdLysFpaRlwR0sFPgc3xZ?auto=format&dpr=1&w=3840",
 		},
 		{
 			Name:     "Twitter",
-			URL:      "https://twitter.com/shitsugyou_otou",
+			Content:  "https://twitter.com/shitsugyou_otou",
 			ImageURL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116523753850028155/1500x500.png",
 		},
 	}
@@ -30,7 +30,7 @@ func SendPublicURL(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	for _, link := range links {
 		embed := &discordgo.MessageEmbed{
 			Title:       link.Name,
-			Description: link.URL,
+			Description: link.Content,
 			Image: &discordgo.MessageEmbedImage{
 				URL: link.ImageURL,
 			},
