@@ -22,11 +22,6 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 
 // 当たりの場合のメッセージを送信します
 func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	// ロールを付与します
-	if err := addWinnerRole(s, i); err != nil {
-		return errors.NewError("ロールを付与できません", err)
-	}
-
 	description := `
 🎉🎉🎉🎉🎉🎉🎉
  「当たり」
@@ -53,6 +48,11 @@ func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 
 	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
 		return errors.NewError("レスポンスを送信できません", err)
+	}
+
+	// ロールを付与します
+	if err := addWinnerRole(s, i); err != nil {
+		return errors.NewError("ロールを付与できません", err)
 	}
 
 	return nil
