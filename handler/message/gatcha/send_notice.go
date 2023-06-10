@@ -17,16 +17,21 @@ func SendNotice(s *discordgo.Session) error {
 	}
 
 	latestMessage := messages[0]
-	if strings.Contains(latestMessage.Content, "Notice") {
-		msg := fmt.Sprintf(
-			"<@&%s> おはようございます！今日もガチャで運試しをしてみましょう！！",
-			internal.RoleID().GATCHA_NOTICE,
-		)
-
-		_, err = s.ChannelMessageSend(internal.ChannelID().GATCHA, msg)
-		if err != nil {
-			return errors.NewError("通知メッセージを送信できません", err)
+	if strings.Contains(latestMessage.Content, "おはようございます") {
+		if err = s.ChannelMessageDelete(latestMessage.ChannelID, latestMessage.ID); err != nil {
+			return errors.NewError("前回の通知メッセージを削除できません", err)
 		}
+	}
+
+	// 通知を送信します
+	msg := fmt.Sprintf(
+		"<@&%s> おはようございます！今日もガチャで運試しをしてみましょう！！",
+		internal.RoleID().GATCHA_NOTICE,
+	)
+
+	_, err = s.ChannelMessageSend(internal.ChannelID().GATCHA, msg)
+	if err != nil {
+		return errors.NewError("通知メッセージを送信できません", err)
 	}
 
 	return nil
