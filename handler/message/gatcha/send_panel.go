@@ -20,7 +20,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 	}
 
 	btn2 := discordgo.Button{
-		Label: "ガチャ通知",
+		Label: "ガチャ通知 ON/OFF",
 		Emoji: discordgo.ComponentEmoji{
 			Name: "🔔",
 		},
@@ -40,6 +40,10 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 - 当選すると<@&%s>ロールがもらえるよ
 - 3回当選で、AL確定GET！
 - 確率は10％前後で変動するよ
+
+---
+回し忘れを防ぎたい方は、🔔ガチャ通知をONにしておきましょう！
+毎朝8:00に通知されます。
 `
 
 	embed := &discordgo.MessageEmbed{
