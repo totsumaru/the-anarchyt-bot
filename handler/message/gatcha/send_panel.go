@@ -20,7 +20,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 	}
 
 	btn2 := discordgo.Button{
-		Label: "ガチャ通知 ON/OFF",
+		Label: "ガチャ通知",
 		Emoji: discordgo.ComponentEmoji{
 			Name: "🔔",
 		},
