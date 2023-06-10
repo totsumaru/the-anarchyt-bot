@@ -30,7 +30,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 - <@&%s>で参加（毎日1枚プレゼント）
 - 当選すると<@&%s>ロールがもらえるよ
 - 3回当選で、AL確定GET！
-- 確率は状況に応じて変動するよ
+- 確率は10%前後で変動するよ
 `
 
 	embed := &discordgo.MessageEmbed{
