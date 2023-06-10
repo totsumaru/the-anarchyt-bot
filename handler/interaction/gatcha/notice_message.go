@@ -1,6 +1,7 @@
 package gatcha
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -63,7 +64,7 @@ func SendNoticeMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 `
 
 		embed := &discordgo.MessageEmbed{
-			Description: description,
+			Description: fmt.Sprintf(description, internal.RoleID().GATCHA_NOTICE),
 			Color:       internal.ColorBlue,
 		}
 
