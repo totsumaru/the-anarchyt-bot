@@ -26,7 +26,7 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 				return
 			}
 		case internal.Interaction_CustomID_gatcha_Notice:
-			if err := gatcha.SendNoticeMessage(s, i); err != nil {
+			if err := gatcha.SendNoticeRoleMessage(s, i); err != nil {
 				errors.SendErrMsg(s, errors.NewError("通知ボタンの処理ができません", err))
 				return
 			}

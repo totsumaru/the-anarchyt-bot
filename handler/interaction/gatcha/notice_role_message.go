@@ -8,7 +8,7 @@ import (
 )
 
 // 通知ボタンが押された時の処理です
-func SendNoticeMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+func SendNoticeRoleMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	if hasGatchaRole(i.Member) {
 		// 通知ロールを持っている場合
 		// 確認メッセージを送信
