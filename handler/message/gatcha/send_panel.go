@@ -19,8 +19,17 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 		CustomID: internal.Interaction_CustomID_gatcha_Go,
 	}
 
+	btn2 := discordgo.Button{
+		Label: "ガチャ通知",
+		Emoji: discordgo.ComponentEmoji{
+			Name: "🔔",
+		},
+		Style:    discordgo.PrimaryButton,
+		CustomID: internal.Interaction_CustomID_gatcha_Notice,
+	}
+
 	actions := discordgo.ActionsRow{
-		Components: []discordgo.MessageComponent{btn1},
+		Components: []discordgo.MessageComponent{btn1, btn2},
 	}
 
 	description := `

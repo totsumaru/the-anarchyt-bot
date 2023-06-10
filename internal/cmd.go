@@ -15,8 +15,9 @@ const (
 // InteractionのカスタムID
 const (
 	// ガチャ
-	Interaction_CustomID_gatcha_Go   = "gatcha-go"
-	Interaction_CustomID_gatcha_Open = "gatcha-open"
+	Interaction_CustomID_gatcha_Go     = "gatcha-go"
+	Interaction_CustomID_gatcha_Open   = "gatcha-open"
+	Interaction_CustomID_gatcha_Notice = "gatcha-notice"
 	// Verify
 	Interaction_CustomID_Verify = "verify"
 	// news
