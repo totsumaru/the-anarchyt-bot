@@ -42,7 +42,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 - 確率は10％前後で変動するよ
 
 ---
-回し忘れを防ぎたい方は、🔔ガチャ通知をONにしておきましょう！
+回し忘れを防ぎたい方は、通知をONに！
 毎朝8:00に通知されます。
 `
 
