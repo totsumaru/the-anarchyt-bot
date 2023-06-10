@@ -26,8 +26,8 @@ func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 	for _, user := range users {
 		// ユーザーにロールを付与します
-		if internal.RoleID().TICKET != "" {
-			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, internal.RoleID().TICKET); err != nil {
+		if internal.RoleID().GATCHA_TICKET != "" {
+			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, internal.RoleID().GATCHA_TICKET); err != nil {
 				return errors.NewError("ロールを付与できません", err)
 			}
 		}

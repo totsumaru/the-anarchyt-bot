@@ -25,6 +25,16 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 				errors.SendErrMsg(s, errors.NewError("結果を送信できません", err))
 				return
 			}
+		case internal.Interaction_CustomID_gatcha_Notice:
+			if err := gatcha.SendNoticeMessage(s, i); err != nil {
+				errors.SendErrMsg(s, errors.NewError("通知ボタンの処理ができません", err))
+				return
+			}
+		case internal.Interaction_CustomID_gatcha_Notice_Remove:
+			if err := gatcha.RemoveNoticeRole(s, i); err != nil {
+				errors.SendErrMsg(s, errors.NewError("通知ロールを削除できません", err))
+				return
+			}
 		case internal.Interaction_CustomID_Verify:
 			if err := verify.Verify(s, i); err != nil {
 				errors.SendErrMsg(s, errors.NewError("認証できません", err))

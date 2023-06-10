@@ -47,7 +47,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312631721066517/title_3.png",
 		},
 		Title:       "ロールガチャ",
-		Description: fmt.Sprintf(description, internal.RoleID().TICKET, internal.RoleID().PRIZE1),
+		Description: fmt.Sprintf(description, internal.RoleID().GATCHA_TICKET, internal.RoleID().PRIZE1),
 		Color:       internal.ColorYellow,
 	}
 

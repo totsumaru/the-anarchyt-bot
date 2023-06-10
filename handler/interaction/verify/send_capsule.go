@@ -18,7 +18,7 @@ func Verify(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	// verifyロールとチケットロールを付与します
-	if err := addRoles(s, i, []string{internal.RoleID().VERIFIED, internal.RoleID().TICKET}); err != nil {
+	if err := addRoles(s, i, []string{internal.RoleID().VERIFIED, internal.RoleID().GATCHA_TICKET}); err != nil {
 		return errors.NewError("ロールを付与できません", err)
 	}
 
@@ -34,7 +34,7 @@ func Verify(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Description: fmt.Sprintf(
 			description,
 			internal.RoleID().VERIFIED,
-			internal.RoleID().TICKET,
+			internal.RoleID().GATCHA_TICKET,
 			internal.ChannelID().GATCHA,
 		),
 		Thumbnail: &discordgo.MessageEmbedThumbnail{
