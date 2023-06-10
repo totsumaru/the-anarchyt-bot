@@ -24,7 +24,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 		Emoji: discordgo.ComponentEmoji{
 			Name: "🔔",
 		},
-		Style:    discordgo.PrimaryButton,
+		Style:    discordgo.SecondaryButton,
 		CustomID: internal.Interaction_CustomID_gatcha_Notice,
 	}
 
