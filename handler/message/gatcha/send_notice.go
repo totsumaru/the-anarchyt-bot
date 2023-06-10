@@ -25,7 +25,7 @@ func SendNotice(s *discordgo.Session) error {
 
 	// 通知を送信します
 	msg := fmt.Sprintf(
-		"<@&%s>\nおはようございます！今日もガチャで運試しをしてみましょう！！",
+		"<@&%s>\nおはようございます！ガチャチケットが配布されています🎫",
 		internal.RoleID().GATCHA_NOTICE,
 	)
 

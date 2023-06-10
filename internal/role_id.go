@@ -11,6 +11,7 @@ type Role struct {
 	PRIZE3        string // 当たり3
 	INVITATION1   string // 招待券1
 	INVITATION2   string // 招待券2
+	TEST          string // 検証用ロール
 }
 
 // ロールID
@@ -26,6 +27,7 @@ func RoleID() Role {
 			PRIZE3:        "1115570239183269930",
 			INVITATION1:   "1116535909093998664",
 			INVITATION2:   "1116536092573839400",
+			TEST:          "1117102782185492560",
 		}
 	} else {
 		// 本番環境
@@ -38,6 +40,7 @@ func RoleID() Role {
 			PRIZE3:        "1115570239183269930",
 			INVITATION1:   "1116535909093998664",
 			INVITATION2:   "1116536092573839400",
+			TEST:          "1117102782185492560",
 		}
 	}
 }
