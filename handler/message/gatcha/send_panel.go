@@ -37,7 +37,8 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 毎日チャレンジしてみてね！！
 
 - <@&%s>で参加（毎日プレゼント）
-- 当選すると<@&%s>ロールGET！
+- 当選すると<@&%s>,<@&%s>x2 GET！
+- 招待券はMAX2枚で上書きされるよ
 - 3回当選で、AL確定GET！
 - 確率は10％前後で変動するよ
 
@@ -50,9 +51,14 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 		Image: &discordgo.MessageEmbedImage{
 			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312631721066517/title_3.png",
 		},
-		Title:       "ロールガチャ",
-		Description: fmt.Sprintf(description, internal.RoleID().GATCHA_TICKET, internal.RoleID().PRIZE1),
-		Color:       internal.ColorYellow,
+		Title: "ロールガチャ",
+		Description: fmt.Sprintf(
+			description,
+			internal.RoleID().GATCHA_TICKET,
+			internal.RoleID().PRIZE1,
+			internal.RoleID().INVITATION1,
+		),
+		Color: internal.ColorYellow,
 	}
 
 	if currentPanelURL == "" {
