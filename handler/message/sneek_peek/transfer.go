@@ -13,24 +13,16 @@ func Transfer(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		return nil
 	}
 
-	embed := &discordgo.MessageEmbed{
-		Image: &discordgo.MessageEmbedImage{
-			URL: m.Attachments[0].URL,
-		},
-		Description: m.Content,
-		Color:       internal.ColorYellow,
-	}
-
-	contentTmpl := `
+	description := `
 <#%s>に投稿がありました。チェックしましょう！
 `
 
-	data := &discordgo.MessageSend{
-		Content: fmt.Sprintf(contentTmpl, internal.ChannelID().SNEAK_PEEK),
-		Embed:   embed,
+	embed := &discordgo.MessageEmbed{
+		Description: fmt.Sprintf(description, internal.ChannelID().SNEAK_PEEK),
+		Color:       internal.ColorYellow,
 	}
 
-	_, err := s.ChannelMessageSendComplex(internal.ChannelID().CHAT, data)
+	_, err := s.ChannelMessageSendEmbed(internal.ChannelID().CHAT, embed)
 	if err != nil {
 		return errors.NewError("パネルメッセージを送信できません", err)
 	}
