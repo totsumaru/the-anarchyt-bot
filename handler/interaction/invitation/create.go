@@ -78,7 +78,7 @@ func createURL(s *discordgo.Session) (string, error) {
 		Temporary: false,
 	}
 
-	invite, err := s.ChannelInviteCreate(internal.ChannelID().INVITATION_LINK, iv)
+	invite, err := s.ChannelInviteCreate(internal.ChannelID().START, iv)
 	if err != nil {
 		return "", errors.NewError("招待リンクを作成できません", err)
 	}
