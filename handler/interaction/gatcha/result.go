@@ -71,7 +71,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 	embed := &discordgo.MessageEmbed{
 		Description: fmt.Sprintf(description, internal.ChannelID().CHAT),
 		Image: &discordgo.MessageEmbedImage{
-			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312806598389771/hazure.png",
+			URL: randFailureImageURL(),
 		},
 		Color: internal.ColorBlue,
 	}
@@ -134,4 +134,16 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 func isWinner() bool {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(10) == 0
+}
+
+// ハズレの画像URLをランダムに取得します
+func randFailureImageURL() string {
+	urls := []string{
+		"https://cdn.discordapp.com/attachments/1103240223376293938/1116312806598389771/hazure.png",
+		"https://cdn.discordapp.com/attachments/1103240223376293938/1118010136762519642/hazure_02.png",
+	}
+
+	rand.Seed(time.Now().UnixNano())
+
+	return urls[rand.Intn(len(urls))]
 }
