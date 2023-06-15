@@ -14,13 +14,13 @@ import (
 // パネルを更新する場合は、現在のパネルのURLを入れてください。
 func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL string) error {
 	btn1 := discordgo.Button{
-		Label:    "ガチャを回す（1日1回）",
+		Label:    "ガチャを回す",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_gatcha_Go,
 	}
 
 	btn2 := discordgo.Button{
-		Label: "ガチャ通知 ON/OFF",
+		Label: "通知",
 		Emoji: discordgo.ComponentEmoji{
 			Name: "🔔",
 		},
