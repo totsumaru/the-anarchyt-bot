@@ -145,6 +145,7 @@ func randFailureImageURL() string {
 	urls := []string{
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1116312806598389771/hazure.png",
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1118010136762519642/hazure_02.png",
+		"https://cdn.discordapp.com/attachments/1103240223376293938/1119037463650914344/hazure_03.png",
 	}
 
 	rand.Seed(time.Now().UnixNano())
