@@ -38,7 +38,6 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 
 - <@&%s>で参加（毎日プレゼント）
 - 当選すると<@&%s>,<@&%s>x2 GET！
-- 招待券はMAX2枚で上書きされるよ
 - 3回当選で、AL確定GET！
 - 確率は10％前後で変動するよ
 
