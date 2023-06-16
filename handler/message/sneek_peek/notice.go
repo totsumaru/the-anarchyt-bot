@@ -7,8 +7,8 @@ import (
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
-// #チラ見せに投稿されたものを#チャットに転送します
-func Transfer(s *discordgo.Session, m *discordgo.MessageCreate) error {
+// #チラ見せに投稿されたら#チャットに通知します
+func Notice(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	if m.ChannelID != internal.ChannelID().SNEAK_PEEK {
 		return nil
 	}

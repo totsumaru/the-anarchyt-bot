@@ -80,8 +80,13 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	// sneak-peek
-	if err := sneek_peek.Transfer(s, m); err != nil {
+	if err := sneek_peek.Notice(s, m); err != nil {
 		errors.SendErrMsg(s, errors.NewError("スニークピークを転送できません", err))
+	}
+
+	// news
+	if err := news.Notice(s, m); err != nil {
+		errors.SendErrMsg(s, errors.NewError("Newsを転送できません", err))
 	}
 
 	return
