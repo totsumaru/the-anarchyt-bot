@@ -3,6 +3,7 @@ package message
 import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
+	"github.com/techstart35/the-anarchy-bot/handler/message/command"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/message/invitation"
 	"github.com/techstart35/the-anarchy-bot/handler/message/link"
@@ -41,13 +42,20 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err := invitation.CreateInvitationForAdmin(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("招待を作成できません", err))
 		}
+		return
 	case internal.CMD_Link:
 		if err := link.SendPublicURL(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("公式リンクを送信できません", err))
 		}
+		return
 	case internal.CMD_Send_Invitation_Panel:
 		if err := invitation.SendPanel(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("招待リンク発行のパネルを送信できません", err))
+		}
+		return
+	case internal.CMD_ADD_SLASH_COMMAND:
+		if err := command.RegisterSlashCommand(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("スラッシュコマンドを登録できません", err))
 		}
 		return
 	}

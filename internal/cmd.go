@@ -11,6 +11,12 @@ const (
 	CMD_Send_Invitation_Panel       = "!an-invitation-panel" // 招待リンク発行のパネル送信
 	CMD_News                        = "!an-news"             // ニュース
 	CMD_Link                        = "!an-link"             // 公式リンクを送信
+	CMD_ADD_SLASH_COMMAND           = "!an-add-cmd"          // スラッシュコマンドの追加
+)
+
+// スラッシュコマンド
+const (
+	Slash_CMD_MyRoles = "my-roles"
 )
 
 // InteractionのカスタムID

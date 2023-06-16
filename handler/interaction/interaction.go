@@ -6,6 +6,7 @@ import (
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/invitation"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/news"
+	"github.com/techstart35/the-anarchy-bot/handler/interaction/roles"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/verify"
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
@@ -53,6 +54,14 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 		case internal.Interaction_CustomID_Invitation:
 			if err := invitation.ReplyLink(s, i); err != nil {
 				errors.SendErrMsg(s, errors.NewError("招待リンクを発行できません", err))
+				return
+			}
+		}
+	case discordgo.InteractionApplicationCommand:
+		name := i.Data.(discordgo.ApplicationCommandInteractionData).Name
+		if name == internal.Slash_CMD_MyRoles {
+			if err := roles.GetRoles(s, i); err != nil {
+				errors.SendErrMsg(s, errors.NewError("ロールの一覧を取得できません", err))
 				return
 			}
 		}

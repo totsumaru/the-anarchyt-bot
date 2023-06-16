@@ -18,7 +18,7 @@ func Notice(s *discordgo.Session, m *discordgo.MessageCreate) error {
 `
 
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, internal.ChannelID().SNEAK_PEEK),
+		Description: fmt.Sprintf(description, internal.ChannelID().NEWS),
 		Color:       internal.ColorYellow,
 	}
 
