@@ -57,6 +57,11 @@ https://opensea.io/collection/tokyoanarchy
 
 **[Twitter]** しつぎょう✱おとうさん
 https://twitter.com/shitsugyou_otou
+
+**💬｜あいさつ集
+- 朝のあいさつ「おはーきー！」
+
+※今後も追加していきます！
 `
 	embed := &discordgo.MessageEmbed{
 		Description: description,
