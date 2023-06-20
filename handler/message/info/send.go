@@ -52,10 +52,10 @@ func infoEmbed() *discordgo.MessageEmbed {
 	description := `
 **🔗｜公式リンク**
 
-**OpenSea** TOKYO ANARCHY
+**[OpenSea]** TOKYO ANARCHY
 https://opensea.io/collection/tokyoanarchy
 
-**Twitter** しつぎょう✱おとうさん
+**[Twitter]** しつぎょう✱おとうさん
 https://twitter.com/shitsugyou_otou
 `
 	embed := &discordgo.MessageEmbed{
