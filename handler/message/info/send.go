@@ -77,8 +77,6 @@ https://twitter.com/shitsugyou_otou
 **💬｜あいさつ集**
 
 - 朝のあいさつ「おはーきー！」
-
-※今後も追加していきます👋
 `
 	return []*discordgo.MessageEmbed{
 		{
