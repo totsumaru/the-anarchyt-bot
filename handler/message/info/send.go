@@ -50,8 +50,7 @@ func UpdatePublicInfo(s *discordgo.Session, m *discordgo.MessageCreate) error {
 // 公式情報の送信内容です
 func infoEmbed() *discordgo.MessageEmbed {
 	description := `
-**🔗｜公式リンク**
-------------------
+**🔗｜公式リンク** ----------
 
 **[OpenSea]** TOKYO ANARCHY
 https://opensea.io/collection/tokyoanarchy
@@ -59,11 +58,11 @@ https://opensea.io/collection/tokyoanarchy
 **[Twitter]** しつぎょう✱おとうさん
 https://twitter.com/shitsugyou_otou
 
-**💬｜あいさつ集**
-------------------
+**💬｜あいさつ集** ----------
+
 - 朝のあいさつ「おはーきー！」
 
-※今後も追加していきます！
+※今後も追加していきます👋
 `
 	embed := &discordgo.MessageEmbed{
 		Description: description,
