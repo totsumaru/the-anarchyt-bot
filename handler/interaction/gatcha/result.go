@@ -13,7 +13,12 @@ import (
 func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	time.Sleep(1 * time.Second)
 
-	if isWinner() {
+	isWin, err := isWinner(i.Member)
+	if err != nil {
+		return errors.NewError("当たり判定に失敗しました", err)
+	}
+
+	if isWin {
 		return sendWinnerMessage(s, i)
 	} else {
 		return sendLoserMessage(s, i)
@@ -135,9 +140,37 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 }
 
 // 当たり判定をします
-func isWinner() bool {
+func isWinner(member *discordgo.Member) (bool, error) {
 	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(10) == 0
+
+	// 当たりの回数
+	var prizedNum int
+
+	for _, roleID := range member.Roles {
+		if roleID == internal.RoleID().PRIZE2 {
+			prizedNum = 2
+			break
+		}
+
+		if roleID == internal.RoleID().PRIZE1 {
+			prizedNum = 1
+			break
+		}
+	}
+
+	switch prizedNum {
+	case 0:
+		// 当たりなし -> 8%
+		return rand.Intn(8) == 0, nil
+	case 1:
+		// 当たり1回 -> 10%
+		return rand.Intn(10) == 0, nil
+	case 2:
+		// 当たり2回 -> 12%
+		return rand.Intn(12) == 0, nil
+	default:
+		return false, errors.NewError("当たり回数が指定の値以外です")
+	}
 }
 
 // ハズレの画像URLをランダムに取得します
