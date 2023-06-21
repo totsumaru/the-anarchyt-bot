@@ -160,7 +160,7 @@ func isWinner(member *discordgo.Member) (bool, error) {
 
 	switch prizedNum {
 	case 0:
-		// 当たりなし -> 8%
+		// 当たりなし -> 7%
 		return rand.Intn(7) == 0, nil
 	case 1:
 		// 当たり1回 -> 11%
