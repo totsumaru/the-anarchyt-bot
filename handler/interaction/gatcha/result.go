@@ -160,14 +160,14 @@ func isWinner(member *discordgo.Member) (bool, error) {
 
 	switch prizedNum {
 	case 0:
-		// 当たりなし -> 7%
-		return rand.Intn(7) == 0, nil
+		// 当たりなし -> 1/5
+		return rand.Intn(5) == 0, nil
 	case 1:
-		// 当たり1回 -> 11%
+		// 当たり1回 -> 1/11
 		return rand.Intn(11) == 0, nil
 	case 2:
-		// 当たり2回 -> 12%
-		return rand.Intn(12) == 0, nil
+		// 当たり2回 -> 1/13
+		return rand.Intn(13) == 0, nil
 	default:
 		return false, errors.NewError("当たり回数が指定の値以外です")
 	}
