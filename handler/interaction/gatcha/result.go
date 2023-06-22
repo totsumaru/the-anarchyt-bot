@@ -147,14 +147,9 @@ func isWinner(member *discordgo.Member) (bool, error) {
 	var prizedNum int
 
 	for _, roleID := range member.Roles {
-		if roleID == internal.RoleID().PRIZE2 {
-			prizedNum = 2
-			break
-		}
-
-		if roleID == internal.RoleID().PRIZE1 {
-			prizedNum = 1
-			break
+		if roleID == internal.RoleID().PRIZE1 ||
+			roleID == internal.RoleID().PRIZE2 {
+			prizedNum++
 		}
 	}
 
