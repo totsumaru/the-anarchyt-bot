@@ -63,6 +63,11 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			errors.SendErrMsg(s, errors.NewError("スラッシュコマンドを登録できません", err))
 		}
 		return
+	case internal.CMD_ADD_INVITE_ROLE:
+		if err := invitation.AddInvitationRole(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("ロールを付与できません", err))
+		}
+		return
 	}
 
 	// ガチャパネル

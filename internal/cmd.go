@@ -13,6 +13,7 @@ const (
 	CMD_Info                        = "!an-info"             // 公式情報を送信
 	CMD_Info_Update                 = "!an-info-update"      // 公式情報を更新
 	CMD_ADD_SLASH_COMMAND           = "!an-add-cmd"          // スラッシュコマンドの追加
+	CMD_ADD_INVITE_ROLE             = "!an-add-invite-role"  // 招待券ロールを付与
 )
 
 // スラッシュコマンド
