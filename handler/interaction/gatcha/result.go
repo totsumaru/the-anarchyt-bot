@@ -148,7 +148,8 @@ func isWinner(member *discordgo.Member) (bool, error) {
 
 	for _, roleID := range member.Roles {
 		if roleID == internal.RoleID().PRIZE1 ||
-			roleID == internal.RoleID().PRIZE2 {
+			roleID == internal.RoleID().PRIZE2 ||
+			roleID == internal.RoleID().AL {
 			prizedNum++
 		}
 	}
@@ -160,11 +161,9 @@ func isWinner(member *discordgo.Member) (bool, error) {
 	case 1:
 		// 当たり1回 -> 1/11
 		return rand.Intn(11) == 0, nil
-	case 2:
+	default:
 		// 当たり2回 -> 1/13
 		return rand.Intn(13) == 0, nil
-	default:
-		return false, errors.NewError("当たり回数が指定の値以外です")
 	}
 }
 
