@@ -10,6 +10,10 @@ import (
 func AddInvitationRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	var after string
 
+	if _, err := s.ChannelMessageSend(m.ChannelID, "開始します"); err != nil {
+		return errors.NewError("メッセージを送信できません", err)
+	}
+
 	for {
 		members, err := s.GuildMembers(m.GuildID, after, 1000)
 		if err != nil {
@@ -35,6 +39,10 @@ func AddInvitationRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		}
 
 		after = members[len(members)-1].User.ID
+	}
+
+	if _, err := s.ChannelMessageSend(m.ChannelID, "完了しました"); err != nil {
+		return errors.NewError("メッセージを送信できません", err)
 	}
 
 	return nil
