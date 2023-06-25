@@ -156,9 +156,10 @@ func isWinner(member *discordgo.Member) (bool, error) {
 
 	switch prizedNum {
 	case 0:
-		// 当たりなしで参加から2週間以上経過している人は当たり確定
+		// 当たりなしで参加から2週間以上経過している人は2/3で当たり
 		if isTwoWeeksOrMoreBefore(member.JoinedAt) {
-			return true, nil
+			rand.Seed(time.Now().UnixNano())
+			return rand.Float64() < 2.0/3.0, nil // 0.0 <= x < 1.0 の範囲でランダムな値を生成するため、この条件は2/3の確率でtrueになります。
 		}
 
 		// 当たりなし -> 1/5
