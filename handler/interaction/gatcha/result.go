@@ -156,6 +156,11 @@ func isWinner(member *discordgo.Member) (bool, error) {
 
 	switch prizedNum {
 	case 0:
+		// 当たりなしで参加から2週間以上経過している人は当たり確定
+		if isTwoWeeksOrMoreBefore(member.JoinedAt) {
+			return true, nil
+		}
+
 		// 当たりなし -> 1/5
 		return rand.Intn(5) == 0, nil
 	case 1:
@@ -179,4 +184,11 @@ func randFailureImageURL() string {
 	rand.Seed(time.Now().UnixNano())
 
 	return urls[rand.Intn(len(urls))]
+}
+
+// 指定した日時が今日より2週間以上前であればtrueを返します
+func isTwoWeeksOrMoreBefore(t time.Time) bool {
+	now := time.Now()
+	twoWeeksAgo := now.AddDate(0, 0, -14)
+	return t.Before(twoWeeksAgo)
 }
