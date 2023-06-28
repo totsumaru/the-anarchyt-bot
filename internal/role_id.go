@@ -13,6 +13,7 @@ type Role struct {
 	INVITATION2   string // 招待券2
 	TEST          string // 検証用ロール
 	AL            string // AL
+	HAZURE        string // はずれ
 }
 
 // ロールID
@@ -30,6 +31,7 @@ func RoleID() Role {
 			INVITATION2:   "1116536092573839400",
 			TEST:          "1117102782185492560",
 			AL:            "1118720616258863226",
+			HAZURE:        "1123476359675650078",
 		}
 	} else {
 		// 本番環境
@@ -44,6 +46,7 @@ func RoleID() Role {
 			INVITATION2:   "1116536092573839400",
 			TEST:          "1117102782185492560",
 			AL:            "1118720616258863226",
+			HAZURE:        "1123476359675650078",
 		}
 	}
 }

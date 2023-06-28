@@ -9,6 +9,8 @@ import (
 // @Verifiedを持っている全員に@ガチャ券を付与します
 //
 // #logsでのみ起動します。
+//
+// @はずれロールを持っている場合は、そのロールを削除します。
 func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	if m.ChannelID != internal.ChannelID().LOGS {
 		return nil
@@ -29,6 +31,15 @@ func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		if internal.RoleID().GATCHA_TICKET != "" {
 			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, internal.RoleID().GATCHA_TICKET); err != nil {
 				return errors.NewError("ロールを付与できません", err)
+			}
+		}
+
+		// ハズレロールを持っている人は、削除します
+		for _, role := range user.Roles {
+			if role == internal.RoleID().HAZURE {
+				if err = s.GuildMemberRoleRemove(m.GuildID, user.User.ID, internal.RoleID().HAZURE); err != nil {
+					return errors.NewError("ハズレロールを削除できません", err)
+				}
 			}
 		}
 	}

@@ -75,6 +75,8 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 
 また明日チャレンジしてみてね！
 もしよければ、<#%s>にもコメントしてね👋
+
+（ハズレた人にしか見えない、秘密の場所が開かれているかも...）
 `
 
 	embed := &discordgo.MessageEmbed{
@@ -95,6 +97,11 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 
 	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
 		return errors.NewError("レスポンスを送信できません", err)
+	}
+
+	// ハズレロールを付与します
+	if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
+		return errors.NewError("ロールを付与できません", err)
 	}
 
 	return nil
