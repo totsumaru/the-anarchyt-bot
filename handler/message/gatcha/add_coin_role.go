@@ -6,12 +6,12 @@ import (
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
-// @Verifiedを持っている全員に@ガチャ券を付与します
+// @Verifiedを持っている全員に@ガチャコインを付与します
 //
 // #logsでのみ起動します。
 //
 // @はずれロールを持っている場合は、そのロールを削除します。
-func AddTicketRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
+func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	if m.ChannelID != internal.ChannelID().LOGS {
 		return nil
 	}

@@ -24,7 +24,7 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 		return
 	case internal.CMD_Send_gatcha_Add_Ticket_Role:
-		if err := gatcha.AddTicketRole(s, m); err != nil {
+		if err := gatcha.AddCoinRole(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("チケットロールを付与できません", err))
 		}
 		return
@@ -70,7 +70,7 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	// ガチャパネル
+	// ガチャパネルコマンド
 	if strings.Contains(m.Content, internal.CMD_Send_gatcha_Panel) {
 		// コマンドのみの場合は新規送信
 		// URLがついている場合は更新
@@ -88,7 +88,7 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
-	// news
+	// newsコマンド
 	if strings.Contains(m.Content, internal.CMD_News) {
 		if err := news.Confirm(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("ニュースの確認を送信できません", err))
@@ -97,12 +97,12 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	// sneak-peek
+	// sneak-peekをchatに転送
 	if err := sneek_peek.Notice(s, m); err != nil {
 		errors.SendErrMsg(s, errors.NewError("スニークピークを転送できません", err))
 	}
 
-	// news
+	// newsをchatに転送
 	if err := news.Notice(s, m); err != nil {
 		errors.SendErrMsg(s, errors.NewError("Newsを転送できません", err))
 	}

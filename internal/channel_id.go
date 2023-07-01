@@ -11,6 +11,7 @@ type Channel struct {
 	SNEAK_PEEK      string // チラ見せ
 	NEWS            string // ニュース
 	INVITATION_LINK string // 招待リンク
+	HAZURE_MACHI_1  string // はずれ町一丁目
 }
 
 func ChannelID() Channel {
@@ -25,6 +26,7 @@ func ChannelID() Channel {
 			SNEAK_PEEK:      "1112524163643621379",
 			NEWS:            "1116286793327841301",
 			INVITATION_LINK: "1116549608663949393",
+			HAZURE_MACHI_1:  "1123476926305157243",
 		}
 	} else {
 		// 本番環境
@@ -37,6 +39,7 @@ func ChannelID() Channel {
 			SNEAK_PEEK:      "1112524163643621379",
 			NEWS:            "1116286793327841301",
 			INVITATION_LINK: "1116549608663949393",
+			HAZURE_MACHI_1:  "1123476926305157243",
 		}
 	}
 }
