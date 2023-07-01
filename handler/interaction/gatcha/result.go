@@ -76,11 +76,20 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 また明日チャレンジしてみてね！
 もしよければ、<#%s>にもコメントしてね👋
 
-（ハズレた人にしか見えない、秘密の場所が開かれているかも...）
+---
+<もう一回だけコインをもらえるチャンス!>
+
+1. twitterで #アナーキー のタグをつけて投稿
+2. そのURLを <#%s> で共有
+3. 運営が確認し ✅のリアクションが付けば、もう1枚コインGET!!!
 `
 
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, internal.ChannelID().CHAT),
+		Description: fmt.Sprintf(
+			description,
+			internal.ChannelID().CHAT,
+			internal.ChannelID().HAZURE_MACHI_1,
+		),
 		Image: &discordgo.MessageEmbedImage{
 			URL: randFailureImageURL(),
 		},
