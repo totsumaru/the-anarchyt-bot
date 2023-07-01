@@ -11,7 +11,7 @@ import (
 // #logsでのみ起動します。
 //
 // @はずれロールを持っている場合は、そのロールを削除します。
-func AddRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
+func AddTicketRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	if m.ChannelID != internal.ChannelID().LOGS {
 		return nil
 	}

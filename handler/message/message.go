@@ -24,7 +24,7 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 		return
 	case internal.CMD_Send_gatcha_Add_Ticket_Role:
-		if err := gatcha.AddRole(s, m); err != nil {
+		if err := gatcha.AddTicketRole(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("チケットロールを付与できません", err))
 		}
 		return
