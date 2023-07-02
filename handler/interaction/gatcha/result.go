@@ -77,7 +77,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 もしよければ、<#%s>にもコメントしてね👋
 
 ---
-<もう一回だけコインをもらえるチャンス!>
+**もう1枚コインをもらえるチャンス!**
 
 1. twitterで #アナーキー のタグをつけて投稿
 2. そのURLを <#%s> で共有
