@@ -13,10 +13,19 @@ const (
 
 // はずれた人に、コインロールを付与します
 //
-// #はずれ町一丁目に`#アナーキー`の入ったツイートURLを添付すると、コインロールが付与される
+// #はずれ町瓦版 に`#アナーキー`の入ったツイートURLを添付すると、@コイン,@2枚目付与済み ロールが付与されます。
+//
+// @2枚目付与済みを持っている人には付与されません。
 func AddSubCoinRoleForHazureUser(s *discordgo.Session, r *discordgo.MessageReactionAdd) error {
-	if r.ChannelID != internal.ChannelID().HAZURE_MACHI_1 {
+	if r.ChannelID != internal.ChannelID().HAZURE_TWEET {
 		return nil
+	}
+
+	// 付与済みの人は除外する
+	for _, role := range r.Member.Roles {
+		if role == internal.RoleID().COIN_2_ADDED {
+			return nil
+		}
 	}
 
 	message, err := s.ChannelMessage(r.ChannelID, r.MessageID)

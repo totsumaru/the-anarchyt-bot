@@ -10,7 +10,7 @@ import (
 //
 // #logsでのみ起動します。
 //
-// @はずれロールを持っている場合は、そのロールを削除します。
+// @はずれ,@コイン再付与済 ロールを持っている場合は、そのロールを削除します。
 func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	if m.ChannelID != internal.ChannelID().LOGS {
 		return nil
@@ -34,11 +34,17 @@ func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 			}
 		}
 
-		// ハズレロールを持っている人は、削除します
+		// @ハズレ,@コイン2枚目付与済み を持っている人は、そのロールを削除します
 		for _, role := range user.Roles {
 			if role == internal.RoleID().HAZURE {
 				if err = s.GuildMemberRoleRemove(m.GuildID, user.User.ID, internal.RoleID().HAZURE); err != nil {
 					return errors.NewError("ハズレロールを削除できません", err)
+				}
+			}
+
+			if role == internal.RoleID().COIN_2_ADDED {
+				if err = s.GuildMemberRoleRemove(m.GuildID, user.User.ID, internal.RoleID().COIN_2_ADDED); err != nil {
+					return errors.NewError("コイン2枚目付与済みロールを削除できません", err)
 				}
 			}
 		}

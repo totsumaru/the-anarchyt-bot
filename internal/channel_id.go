@@ -12,6 +12,7 @@ type Channel struct {
 	NEWS            string // ニュース
 	INVITATION_LINK string // 招待リンク
 	HAZURE_MACHI_1  string // はずれ町一丁目
+	HAZURE_TWEET    string // はずれ町瓦版
 }
 
 func ChannelID() Channel {
@@ -27,6 +28,7 @@ func ChannelID() Channel {
 			NEWS:            "1116286793327841301",
 			INVITATION_LINK: "1116549608663949393",
 			HAZURE_MACHI_1:  "1123476926305157243",
+			HAZURE_TWEET:    "1125221784795480135",
 		}
 	} else {
 		// 本番環境
@@ -40,6 +42,7 @@ func ChannelID() Channel {
 			NEWS:            "1116286793327841301",
 			INVITATION_LINK: "1116549608663949393",
 			HAZURE_MACHI_1:  "1123476926305157243",
+			HAZURE_TWEET:    "1125221784795480135",
 		}
 	}
 }

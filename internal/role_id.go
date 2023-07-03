@@ -14,6 +14,7 @@ type Role struct {
 	TEST          string // 検証用ロール
 	AL            string // AL
 	HAZURE        string // はずれ町民
+	COIN_2_ADDED  string // コイン2枚目付与済み
 }
 
 // ロールID
@@ -32,6 +33,7 @@ func RoleID() Role {
 			TEST:          "1117102782185492560",
 			AL:            "1118720616258863226",
 			HAZURE:        "1123476359675650078",
+			COIN_2_ADDED:  "1124556325867765871",
 		}
 	} else {
 		// 本番環境
@@ -47,6 +49,7 @@ func RoleID() Role {
 			TEST:          "1117102782185492560",
 			AL:            "1118720616258863226",
 			HAZURE:        "1123476359675650078",
+			COIN_2_ADDED:  "1124556325867765871",
 		}
 	}
 }
