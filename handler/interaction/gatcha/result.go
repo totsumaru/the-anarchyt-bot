@@ -59,9 +59,18 @@ func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 		return errors.NewError("レスポンスを送信できません", err)
 	}
 
-	// ロールを付与します
+	// 当たりロールを付与します
 	if err := addWinnerRole(s, i); err != nil {
 		return errors.NewError("ロールを付与できません", err)
+	}
+
+	// ハズレ町民ロールを削除します
+	for _, role := range i.Member.Roles {
+		if role == internal.RoleID().HAZURE {
+			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
+				return errors.NewError("ハズレ町民ロールを削除できません", err)
+			}
+		}
 	}
 
 	return nil
@@ -116,7 +125,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 	return nil
 }
 
-// ロールを付与します
+// 当たりロールを付与します
 //
 // 当たり,招待券を付与します。
 func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {

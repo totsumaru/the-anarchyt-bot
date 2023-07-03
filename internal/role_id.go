@@ -13,7 +13,7 @@ type Role struct {
 	INVITATION2   string // 招待券2
 	TEST          string // 検証用ロール
 	AL            string // AL
-	HAZURE        string // はずれ
+	HAZURE        string // はずれ町民
 }
 
 // ロールID
