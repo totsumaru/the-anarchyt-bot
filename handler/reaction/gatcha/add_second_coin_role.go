@@ -22,11 +22,11 @@ func AddSubCoinRoleForHazureUser(s *discordgo.Session, r *discordgo.MessageReact
 	}
 
 	// 付与済みの人は除外する
-	//for _, role := range r.Member.Roles {
-	//	if role == internal.RoleID().COIN_2_ADDED {
-	//		return nil
-	//	}
-	//}
+	for _, role := range r.Member.Roles {
+		if role == internal.RoleID().COIN_2_ADDED {
+			return nil
+		}
+	}
 
 	message, err := s.ChannelMessage(r.ChannelID, r.MessageID)
 	if err != nil {
