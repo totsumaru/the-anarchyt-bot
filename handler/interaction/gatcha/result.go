@@ -97,7 +97,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 		Description: fmt.Sprintf(
 			description,
 			internal.ChannelID().CHAT,
-			internal.ChannelID().HAZURE_MACHI_1,
+			internal.ChannelID().HAZURE_TWEET,
 		),
 		Image: &discordgo.MessageEmbedImage{
 			URL: randFailureImageURL(),
