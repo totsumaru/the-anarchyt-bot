@@ -41,7 +41,8 @@ func AddSubCoinRoleForHazureUser(s *discordgo.Session, r *discordgo.MessageReact
 
 	if r.Emoji.Name == emojiCheckGreen {
 		if r.UserID == internal.UserID().MUG ||
-			r.UserID == internal.UserID().TOTSUMARU {
+			r.UserID == internal.UserID().TOTSUMARU ||
+			r.UserID == internal.UserID().OTOUSAN {
 
 			// ガチャコインロールを付与
 			if err = s.GuildMemberRoleAdd(r.GuildID, message.Author.ID, internal.RoleID().GATCHA_TICKET); err != nil {
