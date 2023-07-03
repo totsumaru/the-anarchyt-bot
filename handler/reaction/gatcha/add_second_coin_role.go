@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	emojiRoleAdd = "✅"
+	emojiCheckGreen = "✅"
 )
 
 // はずれた人に、コインロールを付与します
@@ -39,7 +39,7 @@ func AddSubCoinRoleForHazureUser(s *discordgo.Session, r *discordgo.MessageReact
 		return nil
 	}
 
-	if r.Emoji.Name == emojiRoleAdd {
+	if r.Emoji.Name == emojiCheckGreen {
 		if r.UserID == internal.UserID().MUG ||
 			r.UserID == internal.UserID().TOTSUMARU {
 
