@@ -107,5 +107,10 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		errors.SendErrMsg(s, errors.NewError("Newsを転送できません", err))
 	}
 
+	// ハズレの人に2枚目のコインロールを付与
+	if err := gatcha.AddSecondCoinRoleForHazureUser(s, m); err != nil {
+		errors.SendErrMsg(s, errors.NewError("2枚目のコインロールを付与できません", err))
+	}
+
 	return
 }
