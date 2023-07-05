@@ -193,8 +193,8 @@ func isWinner(member *discordgo.Member) (bool, error) {
 		// 当たり1回 -> 1/11
 		return rand.Intn(11) == 0, nil
 	default:
-		// 当たり2回 -> 1/13
-		return rand.Intn(13) == 0, nil
+		// 当たり2回 -> 1/15
+		return rand.Intn(15) == 0, nil
 	}
 }
 
