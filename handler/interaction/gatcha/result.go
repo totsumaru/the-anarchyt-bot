@@ -129,7 +129,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 //
 // 現在のランクロール: 次のランクロール
 var nextRankRoleID = map[string]string{
-	"":                         internal.RoleID().AL,
+	"none":                     internal.RoleID().AL,
 	internal.RoleID().AL:       internal.RoleID().BRONZE,
 	internal.RoleID().BRONZE:   internal.RoleID().SILVER,
 	internal.RoleID().SILVER:   internal.RoleID().GOLD,
@@ -143,8 +143,8 @@ var nextRankRoleID = map[string]string{
 // 当たり,招待券を付与します。
 func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	var (
-		prizeRoleNum      int    // 当たりロールの数
-		currentRankRoleID string // 現在のAL,Gold,Silver...ロールのID
+		prizeRoleNum      int      // 当たりロールの数
+		currentRankRoleID = "none" // 現在のAL,Gold,Silver...ロールのID
 	)
 
 	for _, role := range i.Member.Roles {
