@@ -18,9 +18,7 @@ type Error struct {
 }
 
 // エラーメッセージを送信します
-func SendErrMsg(s *discordgo.Session, e error) {
-	totsumaruID := "960104306151948328"
-
+func SendErrMsg(s *discordgo.Session, e error, user *discordgo.User) {
 	embed := &discordgo.MessageEmbed{
 		Title:       fmt.Sprintf("エラーが発生しました"),
 		Description: e.Error(),
@@ -28,8 +26,16 @@ func SendErrMsg(s *discordgo.Session, e error) {
 		Timestamp:   time.Now().Format("2006-01-02T15:04:05+09:00"),
 	}
 
+	if user != nil {
+		author := &discordgo.MessageEmbedAuthor{
+			IconURL: user.AvatarURL(""),
+			Name:    user.Username,
+		}
+		embed.Author = author
+	}
+
 	data := &discordgo.MessageSend{
-		Content: fmt.Sprintf("<@%s>", totsumaruID),
+		Content: fmt.Sprintf("<@%s> Target: <@%s>", internal.UserID().TOTSUMARU, user.ID),
 		Embed:   embed,
 	}
 
