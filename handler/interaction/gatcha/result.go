@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const CurrentRankRoleNone = "none"
+
 // 結果を送信します
 func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	time.Sleep(1 * time.Second)
@@ -129,7 +131,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 //
 // 現在のランクロール: 次のランクロール
 var nextRankRoleID = map[string]string{
-	"none":                     internal.RoleID().AL,
+	CurrentRankRoleNone:        internal.RoleID().AL,
 	internal.RoleID().AL:       internal.RoleID().BRONZE,
 	internal.RoleID().BRONZE:   internal.RoleID().SILVER,
 	internal.RoleID().SILVER:   internal.RoleID().GOLD,
@@ -143,8 +145,8 @@ var nextRankRoleID = map[string]string{
 // 当たり,招待券を付与します。
 func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	var (
-		prizeRoleNum      int      // 当たりロールの数
-		currentRankRoleID = "none" // 現在のAL,Gold,Silver...ロールのID
+		prizeRoleNum      int                   // 当たりロールの数
+		currentRankRoleID = CurrentRankRoleNone // 現在のAL,Gold,Silver...ロールのID
 	)
 
 	for _, role := range i.Member.Roles {
@@ -182,8 +184,10 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 
 		// ランクロールを正しい状態に変更します
 		{
-			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
-				return errors.NewError("現在のランクロールを削除できません", err)
+			if currentRankRoleID != CurrentRankRoleNone {
+				if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
+					return errors.NewError("現在のランクロールを削除できません", err)
+				}
 			}
 
 			nextRank, ok := nextRankRoleID[currentRankRoleID]
