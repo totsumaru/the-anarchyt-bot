@@ -1,6 +1,7 @@
 package info
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -62,7 +63,7 @@ https://twitter.com/shitsugyou_otou
 				internal.ChannelID().PUBLIC_INFO,
 				info.MessageID,
 				&discordgo.MessageEmbed{
-					Description: info.Description,
+					Description: fmt.Sprintf(info.Description, internal.ChannelID().BOT_COMMAND),
 					Color:       internal.ColorYellow,
 				},
 			); err != nil {
