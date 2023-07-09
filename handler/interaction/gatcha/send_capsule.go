@@ -5,19 +5,18 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"time"
 )
 
 // カプセルのメッセージを送信します
 func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	if !hasTicketRole(i.Member.Roles) {
+	coinRoles := hasGatchaCoin(i.Member.Roles)
+
+	if len(coinRoles) == 0 {
 		if err := sendHasNotTicketErr(s, i); err != nil {
 			return errors.NewError("チケット未保持エラーを送信できません", err)
 		}
 		return nil
 	}
-
-	time.Sleep(1 * time.Second)
 
 	btn1 := discordgo.Button{
 		Label:    "カプセルを開ける",
@@ -57,29 +56,39 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	// チケットロールを削除
-	if err := s.GuildMemberRoleRemove(
-		i.GuildID,
-		i.Member.User.ID,
-		internal.RoleID().GATCHA_COIN,
-	); err != nil {
-		return errors.NewError("チケットロールを削除できません", err)
+	for _, coinRole := range coinRoles {
+		if coinRole != internal.RoleID().FOR_TEST_ATARI {
+			if err := s.GuildMemberRoleRemove(
+				i.GuildID,
+				i.Member.User.ID,
+				coinRole,
+			); err != nil {
+				return errors.NewError("チケットロールを削除できません", err)
+			}
+		}
 	}
 
 	return nil
 }
 
-// チケットロールを保持しているか確認します
-func hasTicketRole(roles []string) bool {
+// ガチャコインを保持しているか確認します
+//
+// 持っているコインロールのIDを返します。
+// ボーナスコインがあるので、スライスで返します。
+func hasGatchaCoin(roles []string) []string {
+	res := make([]string, 0)
+
 	for _, role := range roles {
 		switch role {
 		case internal.RoleID().GATCHA_COIN,
 			internal.RoleID().FOR_TEST_ATARI,
 			internal.RoleID().BONUS_COIN:
-			return true
+
+			res = append(res, role)
 		}
 	}
 
-	return false
+	return res
 }
 
 // チケット未保持エラーを送信します
