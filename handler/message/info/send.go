@@ -16,7 +16,7 @@ type Info struct {
 //
 // 新しく追加したもの(MessageIDが空のInfo)は新規送信します。
 func UpdatePublicInfos(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	greetingInfo := Info{
+	info := Info{
 		MessageID: "1120581611860271227",
 		Description: `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -41,34 +41,43 @@ https://twitter.com/shitsugyou_otou
 - /my-roles : 自分のロール確認
 
 <#%s>で実行OK。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**🎗️ ロール**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<&%s> 当たり21回
+<&%s> 当たり18回
+<&%s> 当たり15回
+<&%s> 当たり12回
+<&%s> 当たり9回
+<&%s> 当たり6回
+<&%s> 当たり3回
+<&%s> "TOKYO ANARCHY" ホルダー
+<&%s> OG（配布終了）
 `,
 	}
 
-	infos := []Info{greetingInfo}
-
-	for _, info := range infos {
-		if info.MessageID == "" {
-			if _, err := s.ChannelMessageSendEmbed(
-				internal.ChannelID().PUBLIC_INFO,
-				&discordgo.MessageEmbed{
-					Description: info.Description,
-					Color:       internal.ColorYellow,
-				},
-			); err != nil {
-				return errors.NewError("メッセージを送信できません", err)
-			}
-		} else {
-			if _, err := s.ChannelMessageEditEmbed(
-				internal.ChannelID().PUBLIC_INFO,
-				info.MessageID,
-				&discordgo.MessageEmbed{
-					Description: fmt.Sprintf(info.Description, internal.ChannelID().BOT_COMMAND),
-					Color:       internal.ColorYellow,
-				},
-			); err != nil {
-				return errors.NewError("メッセージを更新できません", err)
-			}
-		}
+	if _, err := s.ChannelMessageEditEmbed(
+		internal.ChannelID().PUBLIC_INFO,
+		info.MessageID,
+		&discordgo.MessageEmbed{
+			Description: fmt.Sprintf(
+				info.Description,
+				internal.ChannelID().BOT_COMMAND,
+				internal.RoleID().CRAZY,
+				internal.RoleID().DIAMOND,
+				internal.RoleID().PLATINUM,
+				internal.RoleID().GOLD,
+				internal.RoleID().SILVER,
+				internal.RoleID().BRONZE,
+				internal.RoleID().AL,
+				internal.RoleID().TOKYO_ANARCHY,
+				internal.RoleID().CHAINSAW_CLUB,
+			),
+			Color: internal.ColorYellow,
+		},
+	); err != nil {
+		return errors.NewError("メッセージを更新できません", err)
 	}
 
 	// 完了メッセージを送信
