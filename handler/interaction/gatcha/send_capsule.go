@@ -71,7 +71,8 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 // チケットロールを保持しているか確認します
 func hasTicketRole(roles []string) bool {
 	for _, role := range roles {
-		if role == internal.RoleID().GATCHA_TICKET {
+		switch role {
+		case internal.RoleID().GATCHA_TICKET, internal.RoleID().FOR_TEST_ATARI:
 			return true
 		}
 	}
