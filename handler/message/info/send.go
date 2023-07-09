@@ -45,6 +45,7 @@ https://twitter.com/shitsugyou_otou
 
 - /my-roles : 自分のロール確認
 
+-----
 <#%s>で実行OK。
 `, internal.ChannelID().BOT_COMMAND),
 	}
