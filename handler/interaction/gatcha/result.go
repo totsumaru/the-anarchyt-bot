@@ -175,29 +175,31 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			return errors.NewError("ロールを付与できません", err)
 		}
 	case 2:
-		if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE1); err != nil {
-			return errors.NewError("ロールを削除できません", err)
-		}
-		if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE2); err != nil {
-			return errors.NewError("ロールを削除できません", err)
+		nextRank, ok := nextRankRoleID[currentRankRoleID]
+
+		// 現在のランクロールがMAXの場合(nextRankRoleIDが無い場合)は、当たりを削除しません
+		if ok {
+			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE1); err != nil {
+				return errors.NewError("ロールを削除できません", err)
+			}
+			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE2); err != nil {
+				return errors.NewError("ロールを削除できません", err)
+			}
 		}
 
 		// ランクロールを正しい状態に変更します
-		{
-			nextRank, ok := nextRankRoleID[currentRankRoleID]
-
-			// 現在のランクロールがnoneの場合は、削除するロールがないためこの処理をスキップします
-			// 現在のランクロールがMAXの場合(nextRankRoleIDが無い場合)は、新しいランクロールがないため、この処理をスキップします
-			if currentRankRoleID != CurrentRankRoleNone && ok {
-				if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
-					return errors.NewError("現在のランクロールを削除できません", err)
-				}
+		//
+		// 現在のランクロールがnoneの場合は、削除するロールがないためこの処理をスキップします
+		// 現在のランクロールがMAXの場合(nextRankRoleIDが無い場合)は、新しいランクロールがないため、この処理をスキップします
+		if currentRankRoleID != CurrentRankRoleNone && ok {
+			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
+				return errors.NewError("現在のランクロールを削除できません", err)
 			}
+		}
 
-			if ok {
-				if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, nextRank); err != nil {
-					return errors.NewError("新しいランクロールを付与できません", err)
-				}
+		if ok {
+			if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, nextRank); err != nil {
+				return errors.NewError("新しいランクロールを付与できません", err)
 			}
 		}
 	}
