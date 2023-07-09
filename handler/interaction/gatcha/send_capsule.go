@@ -60,7 +60,7 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	if err := s.GuildMemberRoleRemove(
 		i.GuildID,
 		i.Member.User.ID,
-		internal.RoleID().GATCHA_TICKET,
+		internal.RoleID().GATCHA_COIN,
 	); err != nil {
 		return errors.NewError("チケットロールを削除できません", err)
 	}
@@ -72,7 +72,9 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 func hasTicketRole(roles []string) bool {
 	for _, role := range roles {
 		switch role {
-		case internal.RoleID().GATCHA_TICKET, internal.RoleID().FOR_TEST_ATARI:
+		case internal.RoleID().GATCHA_COIN,
+			internal.RoleID().FOR_TEST_ATARI,
+			internal.RoleID().BONUS_COIN:
 			return true
 		}
 	}
@@ -89,7 +91,7 @@ func sendHasNotTicketErr(s *discordgo.Session, i *discordgo.InteractionCreate) e
 `
 	embed := &discordgo.MessageEmbed{
 		Title:       "ERROR",
-		Description: fmt.Sprintf(description, internal.RoleID().GATCHA_TICKET),
+		Description: fmt.Sprintf(description, internal.RoleID().GATCHA_COIN),
 		Color:       internal.ColorRed,
 	}
 

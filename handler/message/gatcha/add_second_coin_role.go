@@ -31,7 +31,7 @@ func AddSecondCoinRoleForHazureUser(s *discordgo.Session, m *discordgo.MessageCr
 	}
 
 	// ガチャコインロールを付与
-	if err := s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, internal.RoleID().GATCHA_TICKET); err != nil {
+	if err := s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, internal.RoleID().GATCHA_COIN); err != nil {
 		return errors.NewError("ガチャコインロールを付与できません", err)
 	}
 

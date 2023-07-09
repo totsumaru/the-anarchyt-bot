@@ -45,7 +45,7 @@ func AddSubCoinRoleForHazureUser(s *discordgo.Session, r *discordgo.MessageReact
 			r.UserID == internal.UserID().OTOUSAN {
 
 			// ガチャコインロールを付与
-			if err = s.GuildMemberRoleAdd(r.GuildID, message.Author.ID, internal.RoleID().GATCHA_TICKET); err != nil {
+			if err = s.GuildMemberRoleAdd(r.GuildID, message.Author.ID, internal.RoleID().GATCHA_COIN); err != nil {
 				return errors.NewError("ガチャコインロールを付与できません", err)
 			}
 

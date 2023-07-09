@@ -3,7 +3,8 @@ package internal
 import "os"
 
 type Role struct {
-	GATCHA_TICKET  string // ガチャチケット
+	GATCHA_COIN    string // ガチャコイン
+	BONUS_COIN     string // ボーナスコイン
 	GATCHA_NOTICE  string // ガチャ通知
 	VERIFIED       string // 入場券
 	PRIZE1         string // 当たり1
@@ -28,7 +29,8 @@ func RoleID() Role {
 	if os.Getenv("ENV") == "dev" {
 		// テスト環境
 		return Role{
-			GATCHA_TICKET:  "1115563590825553941",
+			GATCHA_COIN:    "1115563590825553941",
+			BONUS_COIN:     "1127490096707424337",
 			GATCHA_NOTICE:  "1117087993375768646",
 			VERIFIED:       "1112562612044038295",
 			PRIZE1:         "1115569765101076510",
@@ -50,7 +52,8 @@ func RoleID() Role {
 	} else {
 		// 本番環境
 		return Role{
-			GATCHA_TICKET:  "1115563590825553941",
+			GATCHA_COIN:    "1115563590825553941",
+			BONUS_COIN:     "1127490096707424337",
 			GATCHA_NOTICE:  "1117087993375768646",
 			VERIFIED:       "1112562612044038295",
 			PRIZE1:         "1115569765101076510",

@@ -53,7 +53,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 		Title: "ロールガチャ",
 		Description: fmt.Sprintf(
 			description,
-			internal.RoleID().GATCHA_TICKET,
+			internal.RoleID().GATCHA_COIN,
 			internal.RoleID().PRIZE1,
 			internal.RoleID().INVITATION1,
 		),
