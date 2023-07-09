@@ -39,12 +39,13 @@ https://twitter.com/shitsugyou_otou
 	}
 
 	commandInfo := Info{
-		MessageID: "",
+		MessageID: "1127466054529073202",
 		Description: fmt.Sprintf(`
 **🤖｜botコマンド**
 
-<#%s>で実行OK。
 - /my-roles : 自分のロール確認
+
+<#%s>で実行OK。
 `, internal.ChannelID().BOT_COMMAND),
 	}
 
