@@ -1,7 +1,6 @@
 package info
 
 import (
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -16,8 +15,8 @@ type Info struct {
 //
 // 新しく追加したもの(MessageIDが空のInfo)は新規送信します。
 func UpdatePublicInfos(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	linkInfo := Info{
-		MessageID: "1116525464752754798",
+	greetingInfo := Info{
+		MessageID: "1120581611860271227",
 		Description: `
 **🔗｜公式リンク**
 
@@ -26,31 +25,26 @@ https://opensea.io/collection/tokyoanarchy
 
 **[Twitter]** しつぎょう✱おとうさん
 https://twitter.com/shitsugyou_otou
-`,
-	}
 
-	greetingInfo := Info{
-		MessageID: "1120581611860271227",
-		Description: `
+━━━━━━━━━━━━━━━━━━
+
 **💬｜あいさつ集**
 
 - 朝のあいさつ「おはーきー！」
-`,
-	}
 
-	commandInfo := Info{
-		MessageID: "1127466054529073202",
-		Description: fmt.Sprintf(`
+━━━━━━━━━━━━━━━━━━
+
 **🤖｜botコマンド**
 
 - /my-roles : 自分のロール確認
 
------
 <#%s>で実行OK。
-`, internal.ChannelID().BOT_COMMAND),
+
+━━━━━━━━━━━━━━━━━━
+`,
 	}
 
-	infos := []Info{linkInfo, greetingInfo, commandInfo}
+	infos := []Info{greetingInfo}
 
 	for _, info := range infos {
 		if info.MessageID == "" {
