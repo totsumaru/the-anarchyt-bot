@@ -221,6 +221,11 @@ func isWinner(member *discordgo.Member) (bool, error) {
 			roleID == internal.RoleID().AL {
 			prizedNum++
 		}
+
+		// 検証用ロールの場合は、必ず当たり
+		if roleID == internal.RoleID().FOR_TEST_ATARI {
+			return true, nil
+		}
 	}
 
 	switch prizedNum {
