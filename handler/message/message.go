@@ -23,9 +23,14 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			errors.SendErrMsg(s, errors.NewError("ルールを送信できません", err))
 		}
 		return
-	case internal.CMD_Send_gatcha_Add_Ticket_Role:
+	case internal.CMD_Send_gatcha_Add_Coin_Role:
 		if err := gatcha.AddCoinRole(s, m); err != nil {
-			errors.SendErrMsg(s, errors.NewError("チケットロールを付与できません", err))
+			errors.SendErrMsg(s, errors.NewError("ガチャコインロールを付与できません", err))
+		}
+		return
+	case internal.CMD_Send_gatcha_Add_Bonus_Coin_Role:
+		if err := gatcha.AddBonusCoinRole(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("ボーナスコインロールを付与できません", err))
 		}
 		return
 	case internal.CMD_Send_gatcha_Notice:
