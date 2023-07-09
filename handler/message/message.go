@@ -43,13 +43,8 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			errors.SendErrMsg(s, errors.NewError("招待を作成できません", err))
 		}
 		return
-	case internal.CMD_Info:
-		if err := info.SendPublicInfo(s, m); err != nil {
-			errors.SendErrMsg(s, errors.NewError("公式情報を送信できません", err))
-		}
-		return
 	case internal.CMD_Info_Update:
-		if err := info.UpdatePublicInfo(s, m); err != nil {
+		if err := info.UpdatePublicInfos(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("公式情報を更新できません", err))
 		}
 		return

@@ -1,55 +1,77 @@
 package info
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
-type Link struct {
-	Name     string
-	Content  string
-	ImageURL string
-}
-
-// 公式情報のメッセージを送信します
-func SendPublicInfo(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	for _, embed := range infoEmbed() {
-		_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-		if err != nil {
-			return errors.NewError("メッセージを送信できません", err)
-		}
-	}
-
-	// コマンドメッセージを削除
-	if err := s.ChannelMessageDelete(m.ChannelID, m.ID); err != nil {
-		return errors.NewError("コマンドメッセージを削除できません", err)
-	}
-
-	return nil
+type Info struct {
+	MessageID   string
+	Description string
 }
 
 // 公式情報のメッセージを更新します
-func UpdatePublicInfo(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	const (
-		InfoMessageChannelID   = "1116472032738152588"
-		InfoMessageID_Link     = "1116525464752754798"
-		InfoMessageID_Greeting = "1120581611860271227"
-	)
+//
+// 新しく追加したもの(MessageIDが空のInfo)は新規送信します。
+func UpdatePublicInfos(s *discordgo.Session, m *discordgo.MessageCreate) error {
+	linkInfo := Info{
+		MessageID: "1116525464752754798",
+		Description: `
+**🔗｜公式リンク**
 
-	messageIDs := []string{
-		InfoMessageID_Link,
-		InfoMessageID_Greeting,
+**[OpenSea]** TOKYO ANARCHY
+https://opensea.io/collection/tokyoanarchy
+
+**[Twitter]** しつぎょう✱おとうさん
+https://twitter.com/shitsugyou_otou
+`,
 	}
 
-	for i, embed := range infoEmbed() {
-		_, err := s.ChannelMessageEditEmbed(
-			InfoMessageChannelID,
-			messageIDs[i],
-			embed,
-		)
-		if err != nil {
-			return errors.NewError("メッセージを更新できません", err)
+	greetingInfo := Info{
+		MessageID: "1120581611860271227",
+		Description: `
+**💬｜あいさつ集**
+
+- 朝のあいさつ「おはーきー！」
+`,
+	}
+
+	commandInfo := Info{
+		MessageID: "",
+		Description: fmt.Sprintf(`
+**🤖｜botコマンド**
+
+<#%s>で実行OK。
+- /my-roles : 自分のロール確認
+`, internal.ChannelID().BOT_COMMAND),
+	}
+
+	infos := []Info{linkInfo, greetingInfo, commandInfo}
+
+	for _, info := range infos {
+		if info.MessageID == "" {
+			if _, err := s.ChannelMessageSendEmbed(
+				internal.ChannelID().PUBLIC_INFO,
+				&discordgo.MessageEmbed{
+					Description: info.Description,
+					Color:       internal.ColorYellow,
+				},
+			); err != nil {
+				return errors.NewError("メッセージを送信できません", err)
+			}
+		} else {
+			if _, err := s.ChannelMessageEditEmbed(
+				internal.ChannelID().PUBLIC_INFO,
+				info.MessageID,
+				&discordgo.MessageEmbed{
+					Description: info.Description,
+					Color:       internal.ColorYellow,
+				},
+			); err != nil {
+				return errors.NewError("メッセージを更新できません", err)
+			}
 		}
 	}
 
@@ -59,33 +81,4 @@ func UpdatePublicInfo(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	}
 
 	return nil
-}
-
-// 公式情報の送信内容です
-func infoEmbed() []*discordgo.MessageEmbed {
-	description1 := `
-**🔗｜公式リンク**
-
-**[OpenSea]** TOKYO ANARCHY
-https://opensea.io/collection/tokyoanarchy
-
-**[Twitter]** しつぎょう✱おとうさん
-https://twitter.com/shitsugyou_otou
-`
-
-	description2 := `
-**💬｜あいさつ集**
-
-- 朝のあいさつ「おはーきー！」
-`
-	return []*discordgo.MessageEmbed{
-		{
-			Description: description1,
-			Color:       internal.ColorYellow,
-		},
-		{
-			Description: description2,
-			Color:       internal.ColorYellow,
-		},
-	}
 }

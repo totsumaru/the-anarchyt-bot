@@ -13,6 +13,8 @@ type Channel struct {
 	INVITATION_LINK string // 招待リンク
 	HAZURE_MACHI_1  string // はずれ町一丁目
 	HAZURE_TWEET    string // はずれ町瓦版
+	PUBLIC_INFO     string // 公式情報
+	BOT_COMMAND     string // botコマンド
 }
 
 func ChannelID() Channel {
@@ -29,6 +31,8 @@ func ChannelID() Channel {
 			INVITATION_LINK: "1116549608663949393",
 			HAZURE_MACHI_1:  "1123476926305157243",
 			HAZURE_TWEET:    "1125221784795480135",
+			PUBLIC_INFO:     "1116472032738152588",
+			BOT_COMMAND:     "1127463906676330506",
 		}
 	} else {
 		// 本番環境
@@ -43,6 +47,8 @@ func ChannelID() Channel {
 			INVITATION_LINK: "1116549608663949393",
 			HAZURE_MACHI_1:  "1123476926305157243",
 			HAZURE_TWEET:    "1125221784795480135",
+			PUBLIC_INFO:     "1116472032738152588",
+			BOT_COMMAND:     "1127463906676330506",
 		}
 	}
 }
