@@ -65,6 +65,9 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			); err != nil {
 				return errors.NewError("チケットロールを削除できません", err)
 			}
+
+			// 1枚のみ削除するため、1枚を削除したら処理を終了します。
+			return nil
 		}
 	}
 
