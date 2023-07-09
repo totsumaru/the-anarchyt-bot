@@ -19,9 +19,7 @@ func UpdatePublicInfos(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	greetingInfo := Info{
 		MessageID: "1120581611860271227",
 		Description: `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-**🔗 公式リンク**
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+> **🔗 公式リンク**
 
 **[OpenSea]** TOKYO ANARCHY
 https://opensea.io/collection/tokyoanarchy
@@ -29,15 +27,11 @@ https://opensea.io/collection/tokyoanarchy
 **[Twitter]** しつぎょう✱おとうさん
 https://twitter.com/shitsugyou_otou
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-**💬 あいさつ集**
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+> **💬 あいさつ集**
 
 - 朝のあいさつ「おはーきー！」
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-**🤖 botコマンド**
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+> **🤖 botコマンド**
 
 - /my-roles : 自分のロール確認
 
