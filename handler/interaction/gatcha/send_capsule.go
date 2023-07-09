@@ -56,18 +56,29 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	// チケットロールを削除
-	for _, coinRole := range coinRoles {
-		if coinRole != internal.RoleID().FOR_TEST_ATARI {
+	//
+	// ガチャコインの削除が優先
+	{
+		var removeRoleID string
+
+		for _, coinRole := range coinRoles {
+			switch coinRole {
+			case internal.RoleID().GATCHA_COIN:
+				removeRoleID = coinRole
+				break
+			case internal.RoleID().BONUS_COIN:
+				removeRoleID = coinRole
+			}
+		}
+
+		if removeRoleID != "" {
 			if err := s.GuildMemberRoleRemove(
 				i.GuildID,
 				i.Member.User.ID,
-				coinRole,
+				removeRoleID,
 			); err != nil {
-				return errors.NewError("チケットロールを削除できません", err)
+				return errors.NewError("コインロールを削除できません", err)
 			}
-
-			// 1枚のみ削除するため、1枚を削除したら処理を終了します。
-			return nil
 		}
 	}
 
