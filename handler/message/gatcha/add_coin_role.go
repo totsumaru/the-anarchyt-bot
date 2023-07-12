@@ -1,6 +1,7 @@
 package gatcha
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -8,11 +9,11 @@ import (
 
 // @Verifiedを持っている全員に@ガチャコインを付与します
 //
-// #logsでのみ起動します。
+// #testでのみ起動します。
 //
 // @はずれ,@コイン再付与済 ロールを持っている場合は、そのロールを削除します。
 func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	if m.ChannelID != internal.ChannelID().LOGS {
+	if m.ChannelID != internal.ChannelID().TEST {
 		return nil
 	}
 
@@ -26,7 +27,7 @@ func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		return errors.NewError("特定のロールを持つユーザーを取得できません", err)
 	}
 
-	for _, user := range users {
+	for i, user := range users {
 		// ユーザーにロールを付与します
 		if internal.RoleID().GATCHA_COIN != "" {
 			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, internal.RoleID().GATCHA_COIN); err != nil {
@@ -41,6 +42,13 @@ func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 				if err = s.GuildMemberRoleRemove(m.GuildID, user.User.ID, role); err != nil {
 					return errors.NewError("ロールを削除できません", err)
 				}
+			}
+		}
+
+		// 進捗メッセージを送信
+		if i%50 == 0 {
+			if _, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%d県の処理が完了", i)); err != nil {
+				return errors.NewError("進捗メッセージを送信できません", err)
 			}
 		}
 	}
