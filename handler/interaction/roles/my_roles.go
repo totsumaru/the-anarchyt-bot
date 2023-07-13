@@ -20,8 +20,15 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		return errors.NewError("ロール一覧を取得できません", err)
 	}
 
+	var thumbnailURL string
+
 	for _, roleID := range roleIDs {
 		formatRoles = append(formatRoles, fmt.Sprintf("<@&%s>", roleID))
+
+		switch roleID {
+		case internal.RoleID().BRONZE:
+			thumbnailURL = "https://media.discordapp.net/attachments/1103240223376293938/1128924752396963900/bronze.png?width=256&height=256"
+		}
 	}
 
 	description := `
@@ -35,6 +42,9 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			description,
 			strings.Join(formatRoles, "\n"),
 		),
+		Thumbnail: &discordgo.MessageEmbedThumbnail{
+			URL: thumbnailURL,
+		},
 		Color: internal.ColorBlue,
 	}
 
