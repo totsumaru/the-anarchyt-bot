@@ -47,7 +47,7 @@ func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 		// 進捗メッセージを送信
 		if i%50 == 0 {
-			if _, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%d県の処理が完了", i)); err != nil {
+			if _, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%d件の処理が完了", i)); err != nil {
 				return errors.NewError("進捗メッセージを送信できません", err)
 			}
 		}
