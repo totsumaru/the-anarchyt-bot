@@ -21,7 +21,7 @@ func SendInteractionWaitingMessage(
 ) (EditFunc, error) {
 	responseType := discordgo.InteractionResponseDeferredChannelMessageWithSource
 	if isUpdate {
-		responseType = discordgo.InteractionResponseDeferredMessageUpdate
+		responseType = discordgo.InteractionResponseUpdateMessage
 	}
 
 	embed := &discordgo.MessageEmbed{
