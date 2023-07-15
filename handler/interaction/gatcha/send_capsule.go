@@ -18,7 +18,7 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	coinRoles := hasGatchaCoin(i.Member.Roles)
 
 	if len(coinRoles) == 0 {
-		if err = sendHasNotTicketErr(s, i); err != nil {
+		if err = sendHasNotTicketErr(i, editFunc); err != nil {
 			return errors.NewError("チケット未保持エラーを送信できません", err)
 		}
 		return nil
@@ -107,7 +107,10 @@ func hasGatchaCoin(roles []string) []string {
 }
 
 // チケット未保持エラーを送信します
-func sendHasNotTicketErr(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+func sendHasNotTicketErr(
+	i *discordgo.InteractionCreate,
+	editFunc utils.EditFunc,
+) error {
 	description := `
 <@&%s>をもっていません。
 
@@ -119,15 +122,11 @@ func sendHasNotTicketErr(s *discordgo.Session, i *discordgo.InteractionCreate) e
 		Color:       internal.ColorRed,
 	}
 
-	resp := &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Embeds: []*discordgo.MessageEmbed{embed},
-			Flags:  discordgo.MessageFlagsEphemeral,
-		},
+	webhook := &discordgo.WebhookEdit{
+		Embeds:     &[]*discordgo.MessageEmbed{embed},
+		Components: &[]discordgo.MessageComponent{},
 	}
-
-	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
+	if _, err := editFunc(i.Interaction, webhook); err != nil {
 		return errors.NewError("レスポンスを送信できません", err)
 	}
 
