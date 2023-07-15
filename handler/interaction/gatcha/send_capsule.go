@@ -65,7 +65,7 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 
 		if removeRoleID != "" {
-			if err := s.GuildMemberRoleRemove(
+			if err = s.GuildMemberRoleRemove(
 				i.GuildID,
 				i.Member.User.ID,
 				removeRoleID,

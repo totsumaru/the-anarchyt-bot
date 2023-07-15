@@ -7,6 +7,7 @@ import (
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/utils"
 	"github.com/techstart35/the-anarchy-bot/internal"
 	"math/rand"
+	"net/url"
 	"time"
 )
 
@@ -53,9 +54,19 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 	}
 
+	btn1 := discordgo.Button{
+		Label: "ツイートする",
+		Style: discordgo.LinkButton,
+		URL:   "https://twitter.com/intent/tweet?text=" + url.QueryEscape("#アナーキー"),
+	}
+
+	actions := discordgo.ActionsRow{
+		Components: []discordgo.MessageComponent{btn1},
+	}
+
 	webhook := &discordgo.WebhookEdit{
 		Embeds:     &[]*discordgo.MessageEmbed{embed},
-		Components: &[]discordgo.MessageComponent{},
+		Components: &[]discordgo.MessageComponent{actions},
 	}
 	if _, err = editFunc(i.Interaction, webhook); err != nil {
 		return errors.NewError("レスポンスを送信できません", err)
