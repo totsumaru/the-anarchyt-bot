@@ -10,7 +10,7 @@ import (
 
 // カプセルのメッセージを送信します
 func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	editFunc, err := utils.SendInteractionWaitingMessage(s, i, true, true)
+	editFunc, err := utils.SendInteractionWaitingMessage(s, i, false, true)
 	if err != nil {
 		return errors.NewError("Waitingメッセージが送信できません")
 	}
