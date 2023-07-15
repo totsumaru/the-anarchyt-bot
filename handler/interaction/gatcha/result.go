@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
+	"github.com/techstart35/the-anarchy-bot/handler/interaction/utils"
 	"github.com/techstart35/the-anarchy-bot/internal"
 	"math/rand"
 	"time"
@@ -13,6 +14,11 @@ const CurrentRankRoleNone = "none"
 
 // 結果を送信します
 func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+	editFunc, err := utils.SendInteractionWaitingMessage(s, i, true, true)
+	if err != nil {
+		return errors.NewError("Waitingメッセージが送信できません")
+	}
+
 	time.Sleep(1 * time.Second)
 
 	isWin, err := isWinner(i.Member)
@@ -20,15 +26,46 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		return errors.NewError("当たり判定に失敗しました", err)
 	}
 
+	var embed *discordgo.MessageEmbed
+
 	if isWin {
-		return sendWinnerMessage(s, i)
+		embed = createWinnerMessage()
+
+		// 当たりロールを付与します
+		if err = addWinnerRole(s, i); err != nil {
+			return errors.NewError("ロールを付与できません", err)
+		}
+
+		// ハズレ町民ロールを削除します
+		for _, role := range i.Member.Roles {
+			if role == internal.RoleID().HAZURE {
+				if err = s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
+					return errors.NewError("ハズレ町民ロールを削除できません", err)
+				}
+			}
+		}
 	} else {
-		return sendLoserMessage(s, i)
+		embed = createLoserMessage()
+
+		// ハズレロールを付与します
+		if err = s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
+			return errors.NewError("ロールを付与できません", err)
+		}
 	}
+
+	webhook := &discordgo.WebhookEdit{
+		Embeds:     &[]*discordgo.MessageEmbed{embed},
+		Components: &[]discordgo.MessageComponent{},
+	}
+	if _, err = editFunc(i.Interaction, webhook); err != nil {
+		return errors.NewError("レスポンスを送信できません", err)
+	}
+
+	return nil
 }
 
 // 当たりの場合のメッセージを送信します
-func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+func createWinnerMessage() *discordgo.MessageEmbed {
 	description := `
 🎉🎉🎉🎉🎉🎉🎉
  「当たり」
@@ -42,46 +79,22 @@ func sendWinnerMessage(s *discordgo.Session, i *discordgo.InteractionCreate) err
 <#%s>で**2人まで**お友達を招待できるよ。
 `
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, internal.ChannelID().INVITATION_LINK),
+		Description: fmt.Sprintf(
+			description,
+			internal.ChannelID().INVITATION_LINK,
+		),
 		Image: &discordgo.MessageEmbedImage{
 			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312750277263390/atari.png",
 		},
 		Color: internal.ColorBlue,
 	}
 
-	resp := &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseUpdateMessage,
-		Data: &discordgo.InteractionResponseData{
-			Embeds: []*discordgo.MessageEmbed{embed},
-			Flags:  discordgo.MessageFlagsEphemeral,
-		},
-	}
-
-	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
-		return errors.NewError("レスポンスを送信できません", err)
-	}
-
-	// 当たりロールを付与します
-	if err := addWinnerRole(s, i); err != nil {
-		return errors.NewError("ロールを付与できません", err)
-	}
-
-	// ハズレ町民ロールを削除します
-	for _, role := range i.Member.Roles {
-		if role == internal.RoleID().HAZURE {
-			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
-				return errors.NewError("ハズレ町民ロールを削除できません", err)
-			}
-		}
-	}
-
-	return nil
+	return embed
 }
 
 // ハズレの場合のメッセージを送信します
-func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+func createLoserMessage() *discordgo.MessageEmbed {
 	description := `
-
 「ハズレ」
 
 また明日チャレンジしてみてね！
@@ -92,7 +105,6 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 
 1. Twitterで「#アナーキー」のタグをつけて投稿
 2. そのURLを <#%s> で共有
-3. 運営が確認し ✅のリアクションが付けば、もう1枚コインGET!!!
 `
 
 	embed := &discordgo.MessageEmbed{
@@ -107,24 +119,7 @@ func sendLoserMessage(s *discordgo.Session, i *discordgo.InteractionCreate) erro
 		Color: internal.ColorBlue,
 	}
 
-	resp := &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseUpdateMessage,
-		Data: &discordgo.InteractionResponseData{
-			Embeds: []*discordgo.MessageEmbed{embed},
-			Flags:  discordgo.MessageFlagsEphemeral,
-		},
-	}
-
-	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
-		return errors.NewError("レスポンスを送信できません", err)
-	}
-
-	// ハズレロールを付与します
-	if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
-		return errors.NewError("ロールを付与できません", err)
-	}
-
-	return nil
+	return embed
 }
 
 // 当たった場合のランクロールの変更を取得します

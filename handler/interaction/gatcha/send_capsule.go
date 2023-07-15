@@ -4,15 +4,21 @@ import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
+	"github.com/techstart35/the-anarchy-bot/handler/interaction/utils"
 	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
 // カプセルのメッセージを送信します
 func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+	editFunc, err := utils.SendInteractionWaitingMessage(s, i, true, true)
+	if err != nil {
+		return errors.NewError("Waitingメッセージが送信できません")
+	}
+
 	coinRoles := hasGatchaCoin(i.Member.Roles)
 
 	if len(coinRoles) == 0 {
-		if err := sendHasNotTicketErr(s, i); err != nil {
+		if err = sendHasNotTicketErr(s, i); err != nil {
 			return errors.NewError("チケット未保持エラーを送信できません", err)
 		}
 		return nil
@@ -42,19 +48,6 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Color: internal.ColorBlue,
 	}
 
-	resp := &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Components: []discordgo.MessageComponent{actions},
-			Embeds:     []*discordgo.MessageEmbed{embed},
-			Flags:      discordgo.MessageFlagsEphemeral,
-		},
-	}
-
-	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
-		return errors.NewError("レスポンスを送信できません", err)
-	}
-
 	// チケットロールを削除
 	//
 	// ガチャコインの削除が優先
@@ -80,6 +73,14 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 				return errors.NewError("コインロールを削除できません", err)
 			}
 		}
+	}
+
+	webhook := &discordgo.WebhookEdit{
+		Embeds:     &[]*discordgo.MessageEmbed{embed},
+		Components: &[]discordgo.MessageComponent{actions},
+	}
+	if _, err = editFunc(i.Interaction, webhook); err != nil {
+		return errors.NewError("レスポンスを送信できません", err)
 	}
 
 	return nil
