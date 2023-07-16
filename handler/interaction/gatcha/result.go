@@ -264,13 +264,21 @@ func isWinner(member *discordgo.Member) (bool, error) {
 }
 
 // ハズレの画像URLをランダムに取得します
-func randFailureImageURL() string {
+func randFailureImageURL(roles []string) string {
 	urls := []string{
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1116312806598389771/hazure.png",
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1118010136762519642/hazure_02.png",
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1119037463650914344/hazure_03.png",
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1120971084737560627/hazure_04.png",
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1125368074208555078/hazure_05.png",
+	}
+
+	// ALを持っている人はBonsaiコラボ画像を追加
+	for _, role := range roles {
+		if role == internal.RoleID().AL {
+			const hazureImageURLBonsai = "https://cdn.discordapp.com/attachments/1103240223376293938/1130011522043760670/hazure_06.png"
+			urls = append(urls, hazureImageURLBonsai)
+		}
 	}
 
 	rand.Seed(time.Now().UnixNano())
