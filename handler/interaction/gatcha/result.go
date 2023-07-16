@@ -46,7 +46,7 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			}
 		}
 	} else {
-		embed = createLoserMessage()
+		embed = createLoserMessage(i.Member.Roles)
 
 		// ハズレロールを付与します
 		if err = s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().HAZURE); err != nil {
@@ -104,7 +104,7 @@ func createWinnerMessage() *discordgo.MessageEmbed {
 }
 
 // ハズレの場合のメッセージを送信します
-func createLoserMessage() *discordgo.MessageEmbed {
+func createLoserMessage(roles []string) *discordgo.MessageEmbed {
 	description := `
 「ハズレ」
 
@@ -125,7 +125,7 @@ func createLoserMessage() *discordgo.MessageEmbed {
 			internal.ChannelID().HAZURE_TWEET,
 		),
 		Image: &discordgo.MessageEmbedImage{
-			URL: randFailureImageURL(),
+			URL: randFailureImageURL(roles),
 		},
 		Color: internal.ColorBlue,
 	}
