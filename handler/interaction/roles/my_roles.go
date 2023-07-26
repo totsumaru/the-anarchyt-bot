@@ -28,6 +28,10 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		switch roleID {
 		case internal.RoleID().BRONZE:
 			thumbnailURL = "https://media.discordapp.net/attachments/1103240223376293938/1128924752396963900/bronze.png?width=256&height=256"
+		case internal.RoleID().SILVER:
+			thumbnailURL = "https://media.discordapp.net/attachments/1103240223376293938/1133570074867929188/silver.png?width=1068&height=1068"
+		case internal.RoleID().GOLD:
+			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1133570074461077504/gold.png"
 		}
 	}
 
