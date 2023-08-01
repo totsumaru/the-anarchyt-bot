@@ -273,11 +273,16 @@ func randFailureImageURL(roles []string) string {
 		"https://cdn.discordapp.com/attachments/1103240223376293938/1125368074208555078/hazure_05.png",
 	}
 
-	// ALを持っている人はBonsaiコラボ画像を追加
 	for _, role := range roles {
-		if role == internal.RoleID().AL {
+		// ALを持っている人はBonsaiコラボ画像を追加
+		switch role {
+		case internal.RoleID().AL:
 			const hazureImageURLBonsai = "https://cdn.discordapp.com/attachments/1103240223376293938/1130011522043760670/hazure_06.png"
 			urls = append(urls, hazureImageURLBonsai)
+		// ブロンズを持っている人はOtoさんコラボ画像を追加
+		case internal.RoleID().BRONZE:
+			const hazureImageURLOto = "https://media.discordapp.net/attachments/1103240223376293938/1135858239175659610/hazure_07.png?width=1740&height=978"
+			urls = append(urls, hazureImageURLOto)
 		}
 	}
 
