@@ -34,7 +34,8 @@ func AddSubCoinRoleForHazureUser(s *discordgo.Session, r *discordgo.MessageReact
 	}
 
 	if !(strings.Contains(message.Content, "https://twitter.com") ||
-		strings.Contains(message.Content, "https://mobile.twitter.com")) {
+		strings.Contains(message.Content, "https://mobile.twitter.com") ||
+		strings.Contains(message.Content, "https://x.com")) {
 
 		return nil
 	}

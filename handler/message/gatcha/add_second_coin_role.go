@@ -25,7 +25,8 @@ func AddSecondCoinRoleForHazureUser(s *discordgo.Session, m *discordgo.MessageCr
 	}
 
 	if !(strings.Contains(m.Content, "https://twitter.com") ||
-		strings.Contains(m.Content, "https://mobile.twitter.com")) {
+		strings.Contains(m.Content, "https://mobile.twitter.com") ||
+		strings.Contains(m.Content, "https://x.com")) {
 
 		return nil
 	}
