@@ -32,6 +32,12 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			thumbnailURL = "https://media.discordapp.net/attachments/1103240223376293938/1133570074867929188/silver.png?width=1068&height=1068"
 		case internal.RoleID().GOLD:
 			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1133570074461077504/gold.png"
+		case internal.RoleID().PLATINUM:
+			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1140805359162884217/platinum.png"
+		case internal.RoleID().DIAMOND:
+			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1140805358839926824/diamond.png"
+		case internal.RoleID().CRAZY:
+			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1140805358294675589/crazy.png"
 		}
 	}
 
