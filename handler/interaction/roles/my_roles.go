@@ -21,6 +21,7 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	var thumbnailURL string
+	var color = internal.ColorBlack
 
 	for _, roleID := range roleIDs {
 		formatRoles = append(formatRoles, fmt.Sprintf("<@&%s>", roleID))
@@ -28,16 +29,22 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		switch roleID {
 		case internal.RoleID().BRONZE:
 			thumbnailURL = "https://media.discordapp.net/attachments/1103240223376293938/1128924752396963900/bronze.png?width=256&height=256"
+			color = 0xd87b5f
 		case internal.RoleID().SILVER:
 			thumbnailURL = "https://media.discordapp.net/attachments/1103240223376293938/1133570074867929188/silver.png?width=1068&height=1068"
+			color = 0xacb8b8
 		case internal.RoleID().GOLD:
 			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1133570074461077504/gold.png"
+			color = 0xfdbd52
 		case internal.RoleID().PLATINUM:
 			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1140805359162884217/platinum.png"
+			color = 0x7e76f0
 		case internal.RoleID().DIAMOND:
 			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1140805358839926824/diamond.png"
+			color = 0x429df5
 		case internal.RoleID().CRAZY:
 			thumbnailURL = "https://cdn.discordapp.com/attachments/1103240223376293938/1140805358294675589/crazy.png"
+			color = 0xe41b67
 		}
 	}
 
@@ -55,7 +62,7 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Thumbnail: &discordgo.MessageEmbedThumbnail{
 			URL: thumbnailURL,
 		},
-		Color: internal.ColorBlue,
+		Color: color,
 	}
 
 	resp := &discordgo.InteractionResponse{
