@@ -43,7 +43,16 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Description: description,
 		Image: &discordgo.MessageEmbedImage{
-			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312679884259338/open.png",
+			// 1. 最初の画像
+			//URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312679884259338/open.png",
+			// 2. オレンジ&緑
+			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186462184902806/open_02.jpg",
+			// 3. 黄色&緑
+			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186462537232504/open_03.jpg",
+			// 4. 青
+			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186462965055519/open_04.jpg",
+			// 5. GIFモノクロ
+			URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186523010711573/Open_05.gif",
 		},
 		Color: internal.ColorBlue,
 	}
