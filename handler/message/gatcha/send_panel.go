@@ -48,7 +48,14 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 
 	embed := &discordgo.MessageEmbed{
 		Image: &discordgo.MessageEmbedImage{
-			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312631721066517/title_3.png",
+			// 1. 初期の赤い画像
+			//URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312631721066517/title_3.png",
+			// 2. 青い画像
+			URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186361571954778/title_02.jpg",
+			// 3. ピンクの画像
+			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186362599542916/title_04.jpg",
+			// 4. モノクロ画像
+			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186362209476608/title_03.jpg",
 		},
 		Title: "ロールガチャ",
 		Description: fmt.Sprintf(
