@@ -27,11 +27,12 @@ func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		return errors.NewError("特定のロールを持つユーザーを取得できません", err)
 	}
 
+	// ユーザーが不明の場合は処理が止まってしまうので、エラーは返さず通知のみ実施します
 	for i, user := range users {
 		// ユーザーにロールを付与します
 		if internal.RoleID().GATCHA_COIN != "" {
 			if err = s.GuildMemberRoleAdd(m.GuildID, user.User.ID, internal.RoleID().GATCHA_COIN); err != nil {
-				return errors.NewError("ロールを付与できません", err)
+				errors.SendErrMsg(s, errors.NewError("ロールを付与できないので無視します"), user.User)
 			}
 		}
 
@@ -40,7 +41,7 @@ func AddCoinRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 			switch role {
 			case internal.RoleID().HAZURE, internal.RoleID().COIN_2_ADDED:
 				if err = s.GuildMemberRoleRemove(m.GuildID, user.User.ID, role); err != nil {
-					return errors.NewError("ロールを削除できません", err)
+					errors.SendErrMsg(s, errors.NewError("ロールを付与できないので無視します"), user.User)
 				}
 			}
 		}
