@@ -281,8 +281,12 @@ func randFailureImageURL(roles []string) string {
 			urls = append(urls, hazureImageURLBonsai)
 		// ブロンズを持っている人はOtoさんコラボ画像を追加
 		case internal.RoleID().BRONZE:
-			const hazureImageURLOto = "https://media.discordapp.net/attachments/1103240223376293938/1135858239175659610/hazure_07.png?width=1740&height=978"
-			urls = append(urls, hazureImageURLOto)
+			hazureBronze := []string{
+				"https://media.discordapp.net/attachments/1103240223376293938/1135858239175659610/hazure_07.png",
+				"https://cdn.discordapp.com/attachments/1103240223376293938/1143139074253795400/hazure_08.png",
+			}
+
+			urls = append(urls, hazureBronze...)
 		}
 	}
 
