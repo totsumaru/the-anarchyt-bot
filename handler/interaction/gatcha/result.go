@@ -20,8 +20,6 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		return errors.NewError("Waitingメッセージが送信できません")
 	}
 
-	time.Sleep(1 * time.Second)
-
 	isWin, err := isWinner(i.Member)
 	if err != nil {
 		return errors.NewError("当たり判定に失敗しました", err)
@@ -44,6 +42,12 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 					return errors.NewError("ハズレ町民ロールを削除できません", err)
 				}
 			}
+		}
+
+		// 当たりLogを送信します
+		// ここでエラーが出ても処理は継続します。
+		if err = sendAtariLog(s, i.Member.User); err != nil {
+			errors.SendErrMsg(s, errors.NewError("当たりログを送信できませんが、処理は継続します"), i.Member.User)
 		}
 	} else {
 		embed = createLoserMessage(i.Member.Roles)
@@ -300,4 +304,37 @@ func isTwoWeeksOrMoreBefore(t time.Time) bool {
 	now := time.Now()
 	twoWeeksAgo := now.AddDate(0, 0, -14)
 	return t.Before(twoWeeksAgo)
+}
+
+// 当たりログを送信します
+func sendAtariLog(s *discordgo.Session, user *discordgo.User) error {
+	now := time.Now()
+	formattedTime := now.Format("2006-01-02T15:04:05Z")
+
+	embed := &discordgo.MessageEmbed{
+		Author: &discordgo.MessageEmbedAuthor{
+			Name:    user.Username,
+			IconURL: user.AvatarURL(""),
+		},
+		Fields: []*discordgo.MessageEmbedField{
+			{
+				Name:  "ユーザーID",
+				Value: user.ID,
+			},
+			{
+				Name:  "当たった日時",
+				Value: formattedTime,
+			},
+			{
+				Name:  "検索のための文字列",
+				Value: fmt.Sprintf("当たり%s", user.Username),
+			},
+		},
+	}
+
+	if _, err := s.ChannelMessageSendEmbed(internal.ChannelID().ATARI_LOG, embed); err != nil {
+		return errors.NewError("埋め込みメッセージを送信できません", err)
+	}
+
+	return nil
 }

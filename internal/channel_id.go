@@ -15,6 +15,7 @@ type Channel struct {
 	HAZURE_TWEET    string // はずれ町瓦版
 	PUBLIC_INFO     string // 公式情報
 	BOT_COMMAND     string // botコマンド
+	ATARI_LOG       string // 当たりログ
 }
 
 func ChannelID() Channel {
@@ -33,6 +34,7 @@ func ChannelID() Channel {
 			HAZURE_TWEET:    "1125221784795480135",
 			PUBLIC_INFO:     "1116472032738152588",
 			BOT_COMMAND:     "1127463906676330506",
+			ATARI_LOG:       "1143727344616489021",
 		}
 	} else {
 		// 本番環境
@@ -49,6 +51,7 @@ func ChannelID() Channel {
 			HAZURE_TWEET:    "1125221784795480135",
 			PUBLIC_INFO:     "1116472032738152588",
 			BOT_COMMAND:     "1127463906676330506",
+			ATARI_LOG:       "1143727344616489021",
 		}
 	}
 }
