@@ -325,7 +325,7 @@ func isTwoWeeksOrMoreBefore(t time.Time) bool {
 // 当たりログを送信します
 func sendAtariLog(s *discordgo.Session, user *discordgo.User, grantedRoleID string) error {
 	now := time.Now()
-	formattedTime := now.Format("2006-01-02T15:04:05Z")
+	formattedTime := now.Format("2006/01/02 15:04:05")
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
