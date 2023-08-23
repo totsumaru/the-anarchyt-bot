@@ -167,8 +167,13 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string
 		switch role {
 		case internal.RoleID().PRIZE1, internal.RoleID().PRIZE2:
 			prizeRoleNum++
-		case internal.RoleID().AL,
-			internal.RoleID().BRONZE,
+		case internal.RoleID().AL:
+			// ALは他のランクロールと共存する可能性があるため、
+			// currentRankRoleIDが`none`の場合のみ設定できる
+			if currentRankRoleID == CurrentRankRoleNone {
+				currentRankRoleID = role
+			}
+		case internal.RoleID().BRONZE,
 			internal.RoleID().SILVER,
 			internal.RoleID().GOLD,
 			internal.RoleID().PLATINUM,
@@ -344,7 +349,7 @@ func sendAtariLog(s *discordgo.Session, user *discordgo.User, grantedRoleID stri
 	}
 
 	data := &discordgo.MessageSend{
-		Content: fmt.Sprintf("0x%s", user.ID),
+		Content: fmt.Sprintf("atari%s", user.ID),
 		Embed:   embed,
 	}
 
