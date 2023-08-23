@@ -325,17 +325,20 @@ func sendAtariLog(s *discordgo.Session, user *discordgo.User) error {
 				Value: user.ID,
 			},
 			{
-				Name:  "当たった日時",
+				Name:  "日時",
 				Value: formattedTime,
-			},
-			{
-				Name:  "検索のための文字列",
-				Value: fmt.Sprintf("当たり%s", user.Username),
 			},
 		},
 	}
 
-	if _, err := s.ChannelMessageSendEmbed(internal.ChannelID().ATARI_LOG, embed); err != nil {
+	data := &discordgo.MessageSend{
+		Content: fmt.Sprintf("当たり%s", user.Username),
+		Embed:   embed,
+	}
+
+	if _, err := s.ChannelMessageSendComplex(
+		internal.ChannelID().ATARI_LOG, data,
+	); err != nil {
 		return errors.NewError("埋め込みメッセージを送信できません", err)
 	}
 
