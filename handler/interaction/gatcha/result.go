@@ -332,7 +332,7 @@ func sendAtariLog(s *discordgo.Session, user *discordgo.User) error {
 	}
 
 	data := &discordgo.MessageSend{
-		Content: fmt.Sprintf("当たり%s", user.Username),
+		Content: fmt.Sprintf("0x%s", user.ID),
 		Embed:   embed,
 	}
 
