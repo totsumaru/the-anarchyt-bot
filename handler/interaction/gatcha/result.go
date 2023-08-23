@@ -31,7 +31,8 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		embed = createWinnerMessage()
 
 		// 当たりロールを付与します
-		if err = addWinnerRole(s, i); err != nil {
+		addedRoleID, err := addWinnerRole(s, i)
+		if err != nil {
 			return errors.NewError("ロールを付与できません", err)
 		}
 
@@ -46,10 +47,9 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 
 		// 当たりLogを送信します
 		// ここでエラーが出ても処理は継続します。
-		if err = sendAtariLog(s, i.Member.User); err != nil {
+		if err = sendAtariLog(s, i.Member.User, addedRoleID); err != nil {
 			errors.SendErrMsg(s, errors.NewError(
-				"当たりログを送信できませんが、処理は継続します",
-				err,
+				"当たりログを送信できませんが、処理は継続します", err,
 			), i.Member.User)
 		}
 	} else {
@@ -156,7 +156,8 @@ var nextRankRoleID = map[string]string{
 // 当たりロールを付与します
 //
 // 当たり,招待券を付与します。
-func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+// 新規で付与したロールIDを返します。
+func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string, error) {
 	var (
 		prizeRoleNum      int                   // 当たりロールの数
 		currentRankRoleID = CurrentRankRoleNone // 現在のAL,Gold,Silver...ロールのID
@@ -177,16 +178,22 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 	}
 
+	var addedRoleID string
+
 	// 当たりロールを正しい状態に変更します
 	switch prizeRoleNum {
 	case 0:
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE1); err != nil {
-			return errors.NewError("ロールを付与できません", err)
+		addRoleID := internal.RoleID().PRIZE1
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
 		}
+		addedRoleID = addRoleID
 	case 1:
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE2); err != nil {
-			return errors.NewError("ロールを付与できません", err)
+		addRoleID := internal.RoleID().PRIZE2
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
 		}
+		addedRoleID = addRoleID
 	case 2:
 		nextRank, ok := nextRankRoleID[currentRankRoleID]
 
@@ -195,16 +202,17 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			// 当たりロールを削除します
 			// 現在のランクロールがMAXの場合(nextRankRoleIDが無い場合)は、当たりを削除しません
 			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE1); err != nil {
-				return errors.NewError("ロールを削除できません", err)
+				return "", errors.NewError("ロールを削除できません", err)
 			}
 			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE2); err != nil {
-				return errors.NewError("ロールを削除できません", err)
+				return "", errors.NewError("ロールを削除できません", err)
 			}
 
 			// 次のランクのロールを付与します
 			if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, nextRank); err != nil {
-				return errors.NewError("新しいランクロールを付与できません", err)
+				return "", errors.NewError("新しいランクロールを付与できません", err)
 			}
+			addedRoleID = nextRank
 
 			// 現在のランクロールを削除します
 			// 現在のランクロールがnone,ALロールの場合は、削除するロールがないためこの処理をスキップします
@@ -212,7 +220,7 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			case CurrentRankRoleNone, internal.RoleID().AL: // 何もしない
 			default:
 				if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
-					return errors.NewError("現在のランクロールを削除できません", err)
+					return "", errors.NewError("現在のランクロールを削除できません", err)
 				}
 			}
 		}
@@ -221,14 +229,14 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	// 招待券を付与します
 	{
 		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().INVITATION1); err != nil {
-			return errors.NewError("ロールを付与できません", err)
+			return "", errors.NewError("ロールを付与できません", err)
 		}
 		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().INVITATION2); err != nil {
-			return errors.NewError("ロールを付与できません", err)
+			return "", errors.NewError("ロールを付与できません", err)
 		}
 	}
 
-	return nil
+	return addedRoleID, nil
 }
 
 // 当たり判定をします
@@ -310,7 +318,7 @@ func isTwoWeeksOrMoreBefore(t time.Time) bool {
 }
 
 // 当たりログを送信します
-func sendAtariLog(s *discordgo.Session, user *discordgo.User) error {
+func sendAtariLog(s *discordgo.Session, user *discordgo.User, grantedRoleID string) error {
 	now := time.Now()
 	formattedTime := now.Format("2006-01-02T15:04:05Z")
 
@@ -321,12 +329,16 @@ func sendAtariLog(s *discordgo.Session, user *discordgo.User) error {
 		},
 		Fields: []*discordgo.MessageEmbedField{
 			{
-				Name:  "ユーザーID",
+				Name:  "user id",
 				Value: user.ID,
 			},
 			{
-				Name:  "日時",
+				Name:  "date",
 				Value: formattedTime,
+			},
+			{
+				Name:  "granted role",
+				Value: fmt.Sprintf("<@&%s>", grantedRoleID),
 			},
 		},
 	}
