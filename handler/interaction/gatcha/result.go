@@ -47,7 +47,10 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		// 当たりLogを送信します
 		// ここでエラーが出ても処理は継続します。
 		if err = sendAtariLog(s, i.Member.User); err != nil {
-			errors.SendErrMsg(s, errors.NewError("当たりログを送信できませんが、処理は継続します"), i.Member.User)
+			errors.SendErrMsg(s, errors.NewError(
+				"当たりログを送信できませんが、処理は継続します",
+				err,
+			), i.Member.User)
 		}
 	} else {
 		embed = createLoserMessage(i.Member.Roles)
