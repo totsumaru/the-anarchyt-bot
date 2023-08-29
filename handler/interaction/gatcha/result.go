@@ -285,7 +285,7 @@ func isWinner(member *discordgo.Member) (bool, error) {
 		return rand.Intn(8) == 0, nil
 	default:
 		// 当たり2回 -> 1/10
-		return rand.Intn(10) == 0, nil
+		return rand.Intn(9) == 0, nil
 	}
 }
 
