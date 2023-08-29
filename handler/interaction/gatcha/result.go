@@ -249,21 +249,27 @@ func isWinner(member *discordgo.Member) (bool, error) {
 	rand.Seed(time.Now().UnixNano())
 
 	// 当たりの回数
-	var prizedNum int
+	prizedNum := 0
+	hasAL := false
 
 	for _, roleID := range member.Roles {
-		if roleID == internal.RoleID().PRIZE1 ||
-			roleID == internal.RoleID().PRIZE2 ||
-			roleID == internal.RoleID().AL {
+		switch roleID {
+		case internal.RoleID().PRIZE1, internal.RoleID().PRIZE2:
 			prizedNum++
-		}
-
-		// 検証用ロールの場合は、必ず当たり
-		if roleID == internal.RoleID().FOR_TEST_ATARI {
+		case internal.RoleID().AL:
+			hasAL = true
+		case internal.RoleID().FOR_TEST_ATARI:
+			// 検証用ロールの場合は、必ず当たり。ここで終了
 			return true, nil
 		}
 	}
 
+	// ALを持っている人は一律 1/12
+	if hasAL {
+		return rand.Intn(12) == 0, nil
+	}
+
+	// ALを持っていない人
 	switch prizedNum {
 	case 0:
 		// 当たりなしで参加から2週間以上経過している人は2/3で当たり
@@ -275,11 +281,11 @@ func isWinner(member *discordgo.Member) (bool, error) {
 		// 当たりなし -> 1/5
 		return rand.Intn(5) == 0, nil
 	case 1:
-		// 当たり1回 -> 1/11
-		return rand.Intn(11) == 0, nil
+		// 当たり1回 -> 1/8
+		return rand.Intn(8) == 0, nil
 	default:
-		// 当たり2回 -> 1/12
-		return rand.Intn(12) == 0, nil
+		// 当たり2回 -> 1/10
+		return rand.Intn(10) == 0, nil
 	}
 }
 
