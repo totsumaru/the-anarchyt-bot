@@ -2,10 +2,13 @@ package gatcha
 
 import (
 	"fmt"
+	"math/rand"
+	"strings"
+	"time"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"strings"
 )
 
 // パネルを送信します
@@ -48,14 +51,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 
 	embed := &discordgo.MessageEmbed{
 		Image: &discordgo.MessageEmbedImage{
-			// 1. 初期の赤い画像
-			//URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312631721066517/title_3.png",
-			// 2. 青い画像
-			URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186361571954778/title_02.jpg",
-			// 3. ピンクの画像
-			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186362599542916/title_04.jpg",
-			// 4. モノクロ画像
-			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186362209476608/title_03.jpg",
+			URL: getRandImageURL(),
 		},
 		Title: "ロールガチャ",
 		Description: fmt.Sprintf(
@@ -107,4 +103,20 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 	}
 
 	return nil
+}
+
+// ランダムでTOP画像が表示されるようにします
+func getRandImageURL() string {
+	urls := []string{
+		// 1. 初期の赤い画像
+		"https://cdn.discordapp.com/attachments/1103240223376293938/1116312631721066517/title_3.png",
+		// 2. 青い画像
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186361571954778/title_02.jpg",
+		// 3. ピンクの画像
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186362599542916/title_04.jpg",
+		// 4. モノクロ画像
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186362209476608/title_03.jpg",
+	}
+	rand.Seed(time.Now().UnixNano())
+	return urls[rand.Intn(len(urls))]
 }
