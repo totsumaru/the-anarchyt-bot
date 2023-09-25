@@ -2,6 +2,9 @@ package gatcha
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/utils"
@@ -43,16 +46,7 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Description: description,
 		Image: &discordgo.MessageEmbedImage{
-			// 1. 最初の画像
-			//URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312679884259338/open.png",
-			// 2. オレンジ&緑
-			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186462184902806/open_02.jpg",
-			// 3. 黄色&緑
-			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186462537232504/open_03.jpg",
-			// 4. 青
-			//URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186462965055519/open_04.jpg",
-			// 5. GIFモノクロ
-			URL: "https://cdn.discordapp.com/attachments/1067807967950422096/1141186523010711573/Open_05.gif",
+			URL: getRandImageURL(),
 		},
 		Color: internal.ColorBlue,
 	}
@@ -113,6 +107,24 @@ func hasGatchaCoin(roles []string) []string {
 	}
 
 	return res
+}
+
+// ランダムでゴトン画像が表示されるようにします
+func getRandImageURL() string {
+	urls := []string{
+		// 1. 最初の画像
+		"https://cdn.discordapp.com/attachments/1103240223376293938/1116312679884259338/open.png",
+		// 2. オレンジ&緑
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186462184902806/open_02.jpg",
+		// 3. 黄色&緑
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186462537232504/open_03.jpg",
+		// 4. 青
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186462965055519/open_04.jpg",
+		// 5. GIFモノクロ
+		"https://cdn.discordapp.com/attachments/1067807967950422096/1141186523010711573/Open_05.gif",
+	}
+	rand.Seed(time.Now().UnixNano())
+	return urls[rand.Intn(len(urls))]
 }
 
 // チケット未保持エラーを送信します
