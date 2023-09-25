@@ -2,13 +2,14 @@ package gatcha
 
 import (
 	"fmt"
+	"math/rand"
+	"net/url"
+	"time"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/utils"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"math/rand"
-	"net/url"
-	"time"
 )
 
 const CurrentRankRoleNone = "none"
@@ -305,14 +306,20 @@ func randFailureImageURL(roles []string) string {
 		case internal.RoleID().AL:
 			const hazureImageURLBonsai = "https://cdn.discordapp.com/attachments/1103240223376293938/1130011522043760670/hazure_06.png"
 			urls = append(urls, hazureImageURLBonsai)
-		// ブロンズを持っている人はOtoさんコラボ画像を追加
 		case internal.RoleID().BRONZE:
-			hazureBronze := []string{
+			hazureImages := []string{
 				"https://media.discordapp.net/attachments/1103240223376293938/1135858239175659610/hazure_07.png",
 				"https://cdn.discordapp.com/attachments/1103240223376293938/1143139074253795400/hazure_08.png",
 			}
-
-			urls = append(urls, hazureBronze...)
+			urls = append(urls, hazureImages...)
+		case internal.RoleID().GOLD,
+			internal.RoleID().PLATINUM,
+			internal.RoleID().DIAMOND,
+			internal.RoleID().CRAZY:
+			hazureImages := []string{
+				"https://cdn.discordapp.com/attachments/1103240223376293938/1155802039071285248/hazure_09.png",
+			}
+			urls = append(urls, hazureImages...)
 		}
 	}
 
