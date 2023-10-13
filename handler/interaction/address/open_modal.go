@@ -29,22 +29,22 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	// Modalのコンポーネントです
 	msgComponents := []discordgo.MessageComponent{
 		discordgo.TextInput{
-			CustomID:  "address",
-			Label:     "ウォレットアドレス",
-			Style:     discordgo.TextInputShort,
-			Value:     wallet.Address,
-			Required:  true,
-			MinLength: 42,
-			MaxLength: 42,
+			CustomID: "address",
+			Label:    "ウォレットアドレス",
+			Style:    discordgo.TextInputShort,
+			Value:    wallet.Address,
+			Required: true,
+			//MinLength: 42,
+			//MaxLength: 42,
 		},
 		discordgo.TextInput{
-			CustomID:  "quantity",
-			Label:     fmt.Sprintf("ミント数(上限: %d)", maxMintQuantity),
-			Style:     discordgo.TextInputShort,
-			Value:     strconv.Itoa(wallet.Quantity),
-			Required:  true,
-			MinLength: 1,
-			MaxLength: 1,
+			CustomID: "quantity",
+			Label:    fmt.Sprintf("ミント数(上限: %d)", maxMintQuantity),
+			Style:    discordgo.TextInputShort,
+			Value:    strconv.Itoa(wallet.Quantity),
+			Required: true,
+			//MinLength: 1,
+			//MaxLength: 1,
 		},
 	}
 

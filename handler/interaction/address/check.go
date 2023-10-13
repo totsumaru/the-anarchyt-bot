@@ -39,7 +39,8 @@ func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	description := "ウォレットアドレス\n" +
 		"```%s```\n" +
 		"ミント数\n" +
-		"```%d mint```（上限は %d mint）"
+		"```%d mint```\n" +
+		"※上限は %d mint"
 	addr := wallet.Address
 	if addr == "" {
 		addr = "登録なし"
