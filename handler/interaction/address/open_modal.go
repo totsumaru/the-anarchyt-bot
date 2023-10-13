@@ -24,6 +24,8 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		quantityValue = strconv.Itoa(wallet.Quantity)
 	}
 
+	maxMint := address.MaxMintQuantity(i.Member.Roles)
+
 	// Modalを表示します
 	if err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseModal,
@@ -48,14 +50,11 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 				discordgo.ActionsRow{
 					Components: []discordgo.MessageComponent{
 						discordgo.TextInput{
-							CustomID: "quantity",
-							Label: fmt.Sprintf(
-								"ミント数(上限: %d)",
-								address.MaxMintQuantity(i.Member.Roles),
-							),
+							CustomID:    "quantity",
+							Label:       fmt.Sprintf("ミント数(上限: %d)", maxMint),
 							Style:       discordgo.TextInputShort,
 							Value:       quantityValue,
-							Placeholder: "2",
+							Placeholder: strconv.Itoa(maxMint),
 							Required:    true,
 							MinLength:   1,
 							MaxLength:   1,
