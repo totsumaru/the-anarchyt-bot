@@ -26,11 +26,10 @@ func SendAddressPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 	description := `
 ウォレットアドレスの提出フォームです。
+以下の2つを登録して下さい。
 
 - ウォレットアドレス
-- Mint数(ロールに応じて)
-
-を指定できます。
+- Mint数(ロールに応じて変動します)
 `
 
 	embed := &discordgo.MessageEmbed{

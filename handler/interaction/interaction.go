@@ -76,5 +76,11 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 				return
 			}
 		}
+	// Modal
+	case discordgo.InteractionModalSubmit:
+		if err := address.UpsertFromModal(s, i); err != nil {
+			errors.SendErrMsg(s, errors.NewError("Modalの内容を処理できません", err), i.Member.User)
+			return
+		}
 	}
 }

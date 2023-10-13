@@ -19,15 +19,13 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		return errors.NewError("IDでウォレットを取得できません", err)
 	}
 
-	var maxMintQuantity int
-	for _, role := range i.Member.Roles {
-		if quantity, ok := address.RoleMaxMintMap[role]; ok {
-			maxMintQuantity += quantity
-		}
+	quantityValue := ""
+	if wallet.Quantity != 0 {
+		quantityValue = strconv.Itoa(wallet.Quantity)
 	}
 
 	// Modalを表示します
-	if err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	if err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseModal,
 		Data: &discordgo.InteractionResponseData{
 			CustomID: "modal",
@@ -36,26 +34,31 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 				discordgo.ActionsRow{
 					Components: []discordgo.MessageComponent{
 						discordgo.TextInput{
-							CustomID:  "address",
-							Label:     "ウォレットアドレス",
-							Style:     discordgo.TextInputShort,
-							Value:     wallet.Address,
-							Required:  true,
-							MinLength: 42,
-							MaxLength: 42,
+							CustomID:    "address",
+							Label:       "ウォレットアドレス",
+							Style:       discordgo.TextInputShort,
+							Value:       wallet.Address,
+							Placeholder: "0x64295E222c13BC1817a174e42F35fC0ccbf3c5AD",
+							Required:    true,
+							MinLength:   42,
+							MaxLength:   42,
 						},
 					},
 				},
 				discordgo.ActionsRow{
 					Components: []discordgo.MessageComponent{
 						discordgo.TextInput{
-							CustomID:  "quantity",
-							Label:     fmt.Sprintf("ミント数(上限: %d)", maxMintQuantity),
-							Style:     discordgo.TextInputShort,
-							Value:     strconv.Itoa(wallet.Quantity),
-							Required:  true,
-							MinLength: 1,
-							MaxLength: 1,
+							CustomID: "quantity",
+							Label: fmt.Sprintf(
+								"ミント数(上限: %d)",
+								address.MaxMintQuantity(i.Member.Roles),
+							),
+							Style:       discordgo.TextInputShort,
+							Value:       quantityValue,
+							Placeholder: "2",
+							Required:    true,
+							MinLength:   1,
+							MaxLength:   1,
 						},
 					},
 				},

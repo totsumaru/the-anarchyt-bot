@@ -12,14 +12,6 @@ import (
 
 // 登録したアドレスを確認します
 func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	var maxMintQuantity int
-
-	for _, role := range i.Member.Roles {
-		if quantity, ok := address.RoleMaxMintMap[role]; ok {
-			maxMintQuantity += quantity
-		}
-	}
-
 	// IDでウォレットを取得します
 	wallet, err := db.FindByID(i.Member.User.ID)
 	if err != nil {
@@ -48,8 +40,13 @@ func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	quantity := wallet.Quantity
 
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, addr, quantity, maxMintQuantity),
-		Color:       internal.ColorYellow,
+		Description: fmt.Sprintf(
+			description,
+			addr,
+			quantity,
+			address.MaxMintQuantity(i.Member.Roles),
+		),
+		Color: internal.ColorYellow,
 	}
 
 	resp := &discordgo.InteractionResponse{
