@@ -36,21 +36,18 @@ func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Components: []discordgo.MessageComponent{btn1},
 	}
 
-	description := `
-ウォレットアドレス
-- **%s**
-
-ミント数
-- **%d mint**（上限は %d mint）
-`
-	address := wallet.Address
-	if address == "" {
-		address = "登録なし"
+	description := "ウォレットアドレス\n" +
+		"`%s`\n" +
+		"ミント数\n" +
+		"`%d mint`（上限は %d mint）"
+	addr := wallet.Address
+	if addr == "" {
+		addr = "登録なし"
 	}
 	quantity := wallet.Quantity
 
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, address, quantity, maxMintQuantity),
+		Description: fmt.Sprintf(description, addr, quantity, maxMintQuantity),
 		Color:       internal.ColorYellow,
 	}
 
