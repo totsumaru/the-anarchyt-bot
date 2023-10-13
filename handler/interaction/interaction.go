@@ -62,6 +62,11 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 				errors.SendErrMsg(s, errors.NewError("Modalを開けません", err), i.Member.User)
 				return
 			}
+		case internal.Interaction_CustomID_Address_Check:
+			if err := address.Check(s, i); err != nil {
+				errors.SendErrMsg(s, errors.NewError("アドレスの確認ができません", err), i.Member.User)
+				return
+			}
 		}
 	case discordgo.InteractionApplicationCommand:
 		name := i.Data.(discordgo.ApplicationCommandInteractionData).Name
