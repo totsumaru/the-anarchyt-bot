@@ -1,10 +1,11 @@
 package gatcha
 
 import (
+	"strings"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"strings"
 )
 
 const (

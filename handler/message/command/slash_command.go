@@ -1,10 +1,11 @@
 package command
 
 import (
+	"os"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"os"
 )
 
 // スラッシュコマンドを登録します

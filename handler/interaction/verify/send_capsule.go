@@ -2,6 +2,7 @@ package verify
 
 import (
 	"fmt"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"

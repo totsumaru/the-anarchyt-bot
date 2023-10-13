@@ -3,12 +3,13 @@ package errors
 
 import (
 	"fmt"
-	"github.com/bwmarrin/discordgo"
-	"github.com/techstart35/the-anarchy-bot/internal"
 	"log"
 	"path/filepath"
 	"runtime"
 	"time"
+
+	"github.com/bwmarrin/discordgo"
+	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
 // カスタムエラーです
