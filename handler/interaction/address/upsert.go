@@ -1,6 +1,7 @@
 package address
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 
@@ -65,7 +66,8 @@ func UpsertFromModal(s *discordgo.Session, i *discordgo.InteractionCreate) error
 - %d
 `
 
-	if err = reply(s, i, description, internal.ColorBlue); err != nil {
+	desc := fmt.Sprintf(description, addr, quantity)
+	if err = reply(s, i, desc, internal.ColorBlue); err != nil {
 		return errors.NewError("返信を送信します", err)
 	}
 
