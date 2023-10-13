@@ -9,13 +9,13 @@ import (
 // アドレス集計のパネルを送信します
 func SendAddressPanel(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	btn1 := discordgo.Button{
-		Label:    "提出する",
+		Label:    "登録/変更",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_Address_Modal_Open,
 	}
 
 	btn2 := discordgo.Button{
-		Label:    "確認する",
+		Label:    "チェック",
 		Style:    discordgo.SecondaryButton,
 		CustomID: internal.Interaction_CustomID_Address_Check,
 	}

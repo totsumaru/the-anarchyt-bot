@@ -26,28 +26,6 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 	}
 
-	// Modalのコンポーネントです
-	msgComponents := []discordgo.MessageComponent{
-		discordgo.TextInput{
-			CustomID: "address",
-			Label:    "ウォレットアドレス",
-			Style:    discordgo.TextInputShort,
-			Value:    wallet.Address,
-			Required: true,
-			//MinLength: 42,
-			//MaxLength: 42,
-		},
-		discordgo.TextInput{
-			CustomID: "quantity",
-			Label:    fmt.Sprintf("ミント数(上限: %d)", maxMintQuantity),
-			Style:    discordgo.TextInputShort,
-			Value:    strconv.Itoa(wallet.Quantity),
-			Required: true,
-			//MinLength: 1,
-			//MaxLength: 1,
-		},
-	}
-
 	// Modalを表示します
 	if err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseModal,
@@ -56,7 +34,30 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			Title:    "Wallet Address",
 			Components: []discordgo.MessageComponent{
 				discordgo.ActionsRow{
-					Components: msgComponents,
+					Components: []discordgo.MessageComponent{
+						discordgo.TextInput{
+							CustomID:  "address",
+							Label:     "ウォレットアドレス",
+							Style:     discordgo.TextInputShort,
+							Value:     wallet.Address,
+							Required:  true,
+							MinLength: 42,
+							MaxLength: 42,
+						},
+					},
+				},
+				discordgo.ActionsRow{
+					Components: []discordgo.MessageComponent{
+						discordgo.TextInput{
+							CustomID:  "quantity",
+							Label:     fmt.Sprintf("ミント数(上限: %d)", maxMintQuantity),
+							Style:     discordgo.TextInputShort,
+							Value:     strconv.Itoa(wallet.Quantity),
+							Required:  true,
+							MinLength: 1,
+							MaxLength: 1,
+						},
+					},
 				},
 			},
 		},
