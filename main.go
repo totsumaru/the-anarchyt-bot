@@ -10,6 +10,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
 	"github.com/techstart35/the-anarchy-bot/handler"
+	"github.com/techstart35/the-anarchy-bot/internal"
 	"github.com/techstart35/the-anarchy-bot/internal/db"
 )
 
@@ -45,6 +46,11 @@ func main() {
 		}
 		return
 	}()
+
+	// Deployedメッセージを送信
+	if _, err = session.ChannelMessageSend(internal.ChannelID().TEST, "deployed!"); err != nil {
+		log.Fatalln(err)
+	}
 
 	stopBot := make(chan os.Signal, 1)
 	signal.Notify(stopBot, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
