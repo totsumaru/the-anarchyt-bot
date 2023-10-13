@@ -3,6 +3,7 @@ package interaction
 import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
+	"github.com/techstart35/the-anarchy-bot/handler/interaction/address"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/invitation"
 	"github.com/techstart35/the-anarchy-bot/handler/interaction/news"
@@ -54,6 +55,11 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 		case internal.Interaction_CustomID_Invitation:
 			if err := invitation.ReplyLink(s, i); err != nil {
 				errors.SendErrMsg(s, errors.NewError("招待リンクを発行できません", err), i.Member.User)
+				return
+			}
+		case internal.Interaction_CustomID_Address_Modal_Open:
+			if err := address.OpenModal(s, i); err != nil {
+				errors.SendErrMsg(s, errors.NewError("Modalを開けません", err), i.Member.User)
 				return
 			}
 		}

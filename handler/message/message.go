@@ -1,8 +1,11 @@
 package message
 
 import (
+	"strings"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
+	"github.com/techstart35/the-anarchy-bot/handler/message/address"
 	"github.com/techstart35/the-anarchy-bot/handler/message/command"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/message/info"
@@ -12,7 +15,6 @@ import (
 	"github.com/techstart35/the-anarchy-bot/handler/message/sneek_peek"
 	"github.com/techstart35/the-anarchy-bot/handler/message/verify"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"strings"
 )
 
 // メッセージが作成された時のハンドラーです
@@ -68,6 +70,12 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			errors.SendErrMsg(s, errors.NewError("ロールを付与できません", err), m.Author)
 		}
 		return
+	case internal.CMD_Send_Address_Panel:
+		if err := address.SendAddressPanel(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError(
+				"アドレス集計のパネルを送信できません", err,
+			), m.Author)
+		}
 	}
 
 	// ガチャパネルコマンド

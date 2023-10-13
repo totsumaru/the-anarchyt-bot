@@ -1,14 +1,16 @@
 package main
 
 import (
-	"github.com/bwmarrin/discordgo"
-	"github.com/joho/godotenv"
-	"github.com/techstart35/the-anarchy-bot/handler"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/bwmarrin/discordgo"
+	"github.com/joho/godotenv"
+	"github.com/techstart35/the-anarchy-bot/handler"
+	"github.com/techstart35/the-anarchy-bot/internal/db"
 )
 
 func init() {
@@ -32,6 +34,7 @@ func main() {
 	}
 
 	handler.AddHandler(session)
+	db.ConnectDB()
 
 	if err = session.Open(); err != nil {
 		log.Fatalln(err)
