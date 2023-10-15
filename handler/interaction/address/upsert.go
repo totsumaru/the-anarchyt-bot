@@ -59,7 +59,7 @@ func UpsertFromModal(s *discordgo.Session, i *discordgo.InteractionCreate) error
 
 	// 返信を送信します
 	description := `
-【✅登録完了】
+✅登録完了
 
 アドレス
 - %s
