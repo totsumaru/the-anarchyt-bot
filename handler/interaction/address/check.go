@@ -12,6 +12,30 @@ import (
 
 // 登録したアドレスを確認します
 func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
+	maxMint := address.MaxMintQuantity(i.Member.Roles)
+
+	// maxMintが0の人にはエラーメッセージを送信します
+	if maxMint == 0 {
+		embed := &discordgo.MessageEmbed{
+			Description: "AL対象のロールを保持していません。",
+			Color:       internal.ColorRed,
+		}
+
+		resp := &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				Embeds: []*discordgo.MessageEmbed{embed},
+				Flags:  discordgo.MessageFlagsEphemeral,
+			},
+		}
+
+		if err := s.InteractionRespond(i.Interaction, resp); err != nil {
+			return errors.NewError("レスポンスを送信できません", err)
+		}
+
+		return nil
+	}
+
 	// IDでウォレットを取得します
 	wallet, err := db.FindByID(i.Member.User.ID)
 	if err != nil {
@@ -40,13 +64,8 @@ func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	quantity := wallet.Quantity
 
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(
-			description,
-			addr,
-			quantity,
-			address.MaxMintQuantity(i.Member.Roles),
-		),
-		Color: internal.ColorYellow,
+		Description: fmt.Sprintf(description, addr, quantity, maxMint),
+		Color:       internal.ColorYellow,
 	}
 
 	resp := &discordgo.InteractionResponse{
