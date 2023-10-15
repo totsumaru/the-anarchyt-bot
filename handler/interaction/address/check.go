@@ -52,9 +52,9 @@ func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Components: []discordgo.MessageComponent{btn1},
 	}
 
-	description := "ウォレットアドレス\n" +
+	description := "✅ウォレットアドレス\n" +
 		"```%s```\n" +
-		"ミント数\n" +
+		"✅ミント数\n" +
 		"```%d mint```\n" +
 		"※上限は %d mint"
 	addr := wallet.Address
