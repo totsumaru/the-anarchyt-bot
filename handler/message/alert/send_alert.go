@@ -16,7 +16,7 @@ var alertUsers = map[string]bool{
 
 // 警告対象者がメッセージを送信したらアラートを送信します
 func SendAlert(s *discordgo.Session, m *discordgo.MessageCreate) error {
-	if _, ok := alertUsers[m.Member.User.ID]; !ok {
+	if _, ok := alertUsers[m.Author.ID]; !ok {
 		return nil
 	}
 
