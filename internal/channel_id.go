@@ -3,6 +3,7 @@ package internal
 import "os"
 
 type Channel struct {
+	TEAM            string
 	LOGS            string
 	TEST            string
 	START           string // 最初に
@@ -22,6 +23,7 @@ func ChannelID() Channel {
 	if os.Getenv("ENV") == "dev" {
 		// テスト環境
 		return Channel{
+			TEAM:            "",
 			LOGS:            "1112548516955439194",
 			TEST:            "1069459007321952316",
 			START:           "1112585199373520916",
@@ -39,6 +41,7 @@ func ChannelID() Channel {
 	} else {
 		// 本番環境
 		return Channel{
+			TEAM:            "1067807967950422096",
 			LOGS:            "1112548516955439194",
 			TEST:            "1069459007321952316",
 			START:           "1112585199373520916",

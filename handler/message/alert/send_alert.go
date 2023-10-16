@@ -43,7 +43,7 @@ func SendAlert(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		Color:       internal.ColorYellow,
 	}
 
-	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	_, err := s.ChannelMessageSendEmbed(internal.ChannelID().TEAM, embed)
 	if err != nil {
 		return errors.NewError("パネルメッセージを送信できません", err)
 	}
