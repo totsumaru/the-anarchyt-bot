@@ -72,7 +72,7 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	btn1 := discordgo.Button{
-		Label: "タグ無しでポスト",
+		Label: "Xにポスト",
 		Style: discordgo.LinkButton,
 		URL:   "https://twitter.com/intent/tweet?text=" + url.QueryEscape("#アナーキー"),
 	}
