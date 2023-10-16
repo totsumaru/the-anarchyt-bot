@@ -63,6 +63,9 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	btn2 := discordgo.Button{
+		Emoji: discordgo.ComponentEmoji{
+			Name: "✅",
+		},
 		Label: "招待タグをつけてポスト",
 		Style: discordgo.LinkButton,
 		URL:   "https://twitter.com/intent/tweet?text=" + url.QueryEscape("#アナーキー #アナーキーにおいでよ"),
