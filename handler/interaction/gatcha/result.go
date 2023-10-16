@@ -62,14 +62,28 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 	}
 
+	btn2 := discordgo.Button{
+		Label: "招待タグをつけてポスト",
+		Style: discordgo.LinkButton,
+		URL:   "https://twitter.com/intent/tweet?text=" + url.QueryEscape("#アナーキー #アナーキーにおいでよ"),
+	}
+
 	btn1 := discordgo.Button{
-		Label: "ツイートする",
+		Label: "タグ無しでポスト",
 		Style: discordgo.LinkButton,
 		URL:   "https://twitter.com/intent/tweet?text=" + url.QueryEscape("#アナーキー"),
 	}
 
+	components := []discordgo.MessageComponent{btn1}
+	for _, role := range i.Member.Roles {
+		if role == internal.RoleID().INVITATION1 ||
+			role == internal.RoleID().INVITATION2 {
+			components = []discordgo.MessageComponent{btn2, btn1}
+		}
+	}
+
 	actions := discordgo.ActionsRow{
-		Components: []discordgo.MessageComponent{btn1},
+		Components: components,
 	}
 
 	webhook := &discordgo.WebhookEdit{
