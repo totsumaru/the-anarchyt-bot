@@ -77,6 +77,9 @@ func UpsertFromModal(s *discordgo.Session, i *discordgo.InteractionCreate) error
 `
 
 	desc := fmt.Sprintf(description, addr, quantity)
+	if quantity == 0 {
+		desc = "登録を削除しました"
+	}
 	if err = reply(s, i, desc, internal.ColorBlue); err != nil {
 		return errors.NewError("返信を送信します", err)
 	}
