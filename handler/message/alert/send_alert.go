@@ -39,7 +39,7 @@ func SendAlert(s *discordgo.Session, m *discordgo.MessageCreate) error {
 
 	embed := &discordgo.MessageEmbed{
 		Title:       "警告対象者がメッセージを送信しました",
-		Description: fmt.Sprintf(description, m.Member.User.ID, m.Content, messageLink),
+		Description: fmt.Sprintf(description, m.Author.ID, m.Content, messageLink),
 		Color:       internal.ColorYellow,
 	}
 
