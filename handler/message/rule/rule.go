@@ -21,7 +21,7 @@ func SendRule(s *discordgo.Session, m *discordgo.MessageCreate) error {
 3.ハラスメント、性差別、人種差別
 4.悪質な広告やスパムメール
 
-これらの行為が見受けられた場合は運営の判断により、強制退会などの対応をとらせて頂くことがあります。
+これらの行為が見受けられた場合、その他運営が悪質と判断した場合、強制退会などの対応をとらせて頂くことがあります。
 ご理解ご了承よろしくお願い致します。
 `
 
@@ -30,7 +30,13 @@ func SendRule(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		Description: ruleTmpl,
 	}
 
-	if _, err := s.ChannelMessageSendEmbed(m.ChannelID, embed); err != nil {
+	edit := &discordgo.MessageEdit{
+		ID:      "1115241135359668234",
+		Channel: "1112544665942634595",
+		Embed:   embed,
+	}
+
+	if _, err := s.ChannelMessageEditComplex(edit); err != nil {
 		return errors.NewError("メッセージを送信できません", err)
 	}
 
