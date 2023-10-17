@@ -58,13 +58,15 @@ func Check(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		"```%d mint```\n" +
 		"※上限は %d mint"
 	addr := wallet.Address
-	if addr == "" {
-		addr = "登録なし"
-	}
 	quantity := wallet.Quantity
 
+	desc := fmt.Sprintf(description, addr, quantity, maxMint)
+	if addr == "" {
+		desc = "登録なし"
+	}
+
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(description, addr, quantity, maxMint),
+		Description: desc,
 		Color:       internal.ColorYellow,
 	}
 
