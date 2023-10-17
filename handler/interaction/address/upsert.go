@@ -47,8 +47,17 @@ func UpsertFromModal(s *discordgo.Session, i *discordgo.InteractionCreate) error
 
 	// DBに保存します
 	err = db.DB.Transaction(func(tx *gorm.DB) error {
-		if err = db.Upsert(tx, i.Member.User.ID, addr, quantity); err != nil {
-			return errors.NewError("Upsertに失敗しました", err)
+		// quantityが0の場合は削除します
+		if quantity == 0 {
+			// 削除します
+			if err = db.Remove(tx, i.Member.User.ID); err != nil {
+				return errors.NewError("削除に失敗しました", err)
+			}
+		} else {
+			// 更新します
+			if err = db.Upsert(tx, i.Member.User.ID, addr, quantity); err != nil {
+				return errors.NewError("Upsertに失敗しました", err)
+			}
 		}
 
 		return nil

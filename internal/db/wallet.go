@@ -68,6 +68,28 @@ func Upsert(tx *gorm.DB, id, address string, quantity int) error {
 	return nil
 }
 
+// 削除します
+func Remove(tx *gorm.DB, id string) error {
+	var wallet Wallet
+
+	// IDをキーとして検索
+	if err := tx.Where("id = ?", id).First(&wallet).Error; err != nil {
+		// レコードが見つからない場合
+		if defaultErrors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.NewError("削除するレコードが見つかりません", err)
+		}
+		// その他のエラーの場合
+		return errors.NewError("レコードの検索に失敗しました", err)
+	}
+
+	// レコードを削除
+	if err := tx.Delete(&wallet).Error; err != nil {
+		return errors.NewError("レコードの削除に失敗しました", err)
+	}
+
+	return nil
+}
+
 // IDで取得します
 func FindByID(id string) (Wallet, error) {
 	var wallet Wallet
