@@ -92,6 +92,9 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			URL: thumbnailURL,
 		},
 		Color: color,
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "カード画像はコピーして、Xでポストしてみよう！",
+		},
 	}
 
 	if point >= 6 {
