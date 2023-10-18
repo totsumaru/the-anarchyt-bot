@@ -79,7 +79,7 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		case internal.RoleID().DIAMOND:
 			point += 18
 		case internal.RoleID().CRAZY:
-			point += 121
+			point += 21
 		}
 	}
 
