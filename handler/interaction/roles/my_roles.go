@@ -2,11 +2,12 @@ package roles
 
 import (
 	"fmt"
+	"sort"
+	"strings"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
-	"sort"
-	"strings"
 )
 
 // `/my-roles`コマンドが実行された時の処理です。
@@ -54,6 +55,34 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 %s
 `
 
+	userName := i.Member.User.Username
+	if i.Member.User.GlobalName != "" {
+		userName = i.Member.User.GlobalName
+	}
+	if i.Member.Nick != "" {
+		userName = i.Member.Nick
+	}
+
+	point := 0
+	for _, role := range i.Member.Roles {
+		switch role {
+		case internal.RoleID().PRIZE1, internal.RoleID().PRIZE2:
+			point += 1
+		case internal.RoleID().BRONZE:
+			point += 6
+		case internal.RoleID().SILVER:
+			point += 9
+		case internal.RoleID().GOLD:
+			point += 12
+		case internal.RoleID().PLATINUM:
+			point += 15
+		case internal.RoleID().DIAMOND:
+			point += 18
+		case internal.RoleID().CRAZY:
+			point += 121
+		}
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Description: fmt.Sprintf(
 			description,
@@ -63,6 +92,19 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			URL: thumbnailURL,
 		},
 		Color: color,
+	}
+
+	if point >= 6 {
+		imageURL := fmt.Sprintf(
+			"https://the-anarchy-gatcha-image.vercel.app/api/card?username=%s&avatar=%s&point=%d",
+			userName,
+			i.Member.User.AvatarURL(""),
+			point,
+		)
+
+		embed.Image = &discordgo.MessageEmbedImage{
+			URL: imageURL,
+		}
 	}
 
 	resp := &discordgo.InteractionResponse{
