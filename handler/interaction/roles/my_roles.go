@@ -105,7 +105,7 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Description: fmt.Sprintf(
 			description,
-			"- "+strings.Join(roleNames, "\n-"),
+			"- "+strings.Join(roleNames, "\n- "),
 		),
 		Thumbnail: &discordgo.MessageEmbedThumbnail{
 			URL: thumbnailURL,
