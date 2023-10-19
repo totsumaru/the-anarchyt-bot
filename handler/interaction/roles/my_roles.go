@@ -102,8 +102,9 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		},
 	}
 
+	var imageURL string
 	if point >= 6 {
-		imageURL := fmt.Sprintf(
+		imageURL = fmt.Sprintf(
 			"https://the-anarchy-gatcha-image.vercel.app/api/card?username=%s&avatar=%s&point=%d",
 			userName,
 			i.Member.User.AvatarURL(""),
@@ -123,7 +124,10 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	if err = s.InteractionRespond(i.Interaction, resp); err != nil {
-		return errors.NewError("レスポンスを送信できません", err)
+		return errors.NewError(
+			fmt.Sprintf("レスポンスを送信できません imageURL: %s", imageURL),
+			err,
+		)
 	}
 
 	return nil

@@ -72,7 +72,7 @@ func InteractionCreateHandler(s *discordgo.Session, i *discordgo.InteractionCrea
 		name := i.Data.(discordgo.ApplicationCommandInteractionData).Name
 		if name == internal.Slash_CMD_MyRoles {
 			if err := roles.GetRoles(s, i); err != nil {
-				errors.SendErrMsg(s, errors.NewError("ロールの一覧を取得できません", err), i.Member.User)
+				errors.SendErrMsg(s, errors.NewError("my-rolesのコマンドでエラーが発生しました", err), i.Member.User)
 				return
 			}
 		}
