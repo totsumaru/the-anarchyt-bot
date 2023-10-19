@@ -74,7 +74,7 @@ func OpenModal(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 					Components: []discordgo.MessageComponent{
 						discordgo.TextInput{
 							CustomID:    "quantity",
-							Label:       fmt.Sprintf("ミント数(上限: %d)", maxMint),
+							Label:       fmt.Sprintf("ミント数(上限: %d) ※購入できる数を記入", maxMint),
 							Style:       discordgo.TextInputShort,
 							Value:       quantityValue,
 							Placeholder: strconv.Itoa(maxMint),
