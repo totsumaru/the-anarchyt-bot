@@ -137,7 +137,7 @@ func createLoserMessage(roles []string) *discordgo.MessageEmbed {
 もしよければ、<#%s>にもコメントしてね👋
 
 -------------------------
-**もう1枚コインをもらえるチャンス!**
+**ワンモアチャンス!**
 
 1. Twitterで「#アナーキー」のタグをつけて投稿
 2. そのURLを <#%s> で共有
