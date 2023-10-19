@@ -18,18 +18,28 @@ import (
 //
 // 自分のロールを出力します
 func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
-	formatRoles := make([]string, 0)
+	roleNames := make([]string, 0)
 
 	roleIDs, err := RoleListInOrder(s, i.GuildID, i.Member.User.ID)
 	if err != nil {
 		return errors.NewError("ロール一覧を取得できません", err)
 	}
 
+	guildRoles, err := s.GuildRoles(i.GuildID)
+	if err != nil {
+		return errors.NewError("全てのロールを取得できません", err)
+	}
+
 	var thumbnailURL string
 	var color = internal.ColorBlack
 
 	for _, roleID := range roleIDs {
-		formatRoles = append(formatRoles, fmt.Sprintf("<@&%s>", roleID))
+		for _, role := range guildRoles {
+			if role.ID == roleID {
+				roleNames = append(roleNames, role.Name)
+				break
+			}
+		}
 
 		switch roleID {
 		case internal.RoleID().BRONZE:
@@ -95,7 +105,7 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	embed := &discordgo.MessageEmbed{
 		Description: fmt.Sprintf(
 			description,
-			strings.Join(formatRoles, "\n"),
+			strings.Join(roleNames, "\n"),
 		),
 		Thumbnail: &discordgo.MessageEmbedThumbnail{
 			URL: thumbnailURL,
