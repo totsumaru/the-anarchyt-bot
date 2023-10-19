@@ -103,20 +103,6 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		},
 	}
 
-	var imageURL string
-	if point >= 6 {
-		imageURL = fmt.Sprintf(
-			"https://the-anarchy-gatcha-image.vercel.app/api/card?username=%s&avatar=%s&point=%d",
-			url.QueryEscape(userName),
-			url.QueryEscape(i.Member.User.AvatarURL("")),
-			point,
-		)
-
-		embed.Image = &discordgo.MessageEmbedImage{
-			URL: imageURL,
-		}
-	}
-
 	resp := &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
@@ -125,14 +111,21 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	}
 
 	if err = s.InteractionRespond(i.Interaction, resp); err != nil {
-		return errors.NewError(
-			fmt.Sprintf("レスポンスを送信できません imageURL: %s", imageURL),
-			err,
-		)
+		return errors.NewError("レスポンスを送信できません", err)
 	}
 
-	if _, err = s.ChannelMessageSend(i.Interaction.ChannelID, imageURL); err != nil {
-		return errors.NewError("画像を送信できません", err)
+	// 画像を送信
+	if point >= 6 {
+		imageURL := fmt.Sprintf(
+			"https://the-anarchy-gatcha-image.vercel.app/api/card?username=%s&avatar=%s&point=%d",
+			url.QueryEscape(userName),
+			url.QueryEscape(i.Member.User.AvatarURL("")),
+			point,
+		)
+
+		if _, err = s.ChannelMessageSend(i.Interaction.ChannelID, imageURL); err != nil {
+			return errors.NewError("画像を送信できません", err)
+		}
 	}
 
 	return nil
