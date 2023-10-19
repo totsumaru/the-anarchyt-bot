@@ -2,6 +2,7 @@ package roles
 
 import (
 	"fmt"
+	"net/url"
 	"sort"
 	"strings"
 
@@ -106,8 +107,8 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	if point >= 6 {
 		imageURL = fmt.Sprintf(
 			"https://the-anarchy-gatcha-image.vercel.app/api/card?username=%s&avatar=%s&point=%d",
-			userName,
-			i.Member.User.AvatarURL(""),
+			url.QueryEscape(userName),
+			url.QueryEscape(i.Member.User.AvatarURL("")),
 			point,
 		)
 
