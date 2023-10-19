@@ -83,6 +83,11 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 	}
 
+	text := "カード画像はコピーして、Xでポストしてみよう！"
+	if point < 6 {
+		text = "IDカードはブロンズ以上で表示されるよ"
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Description: fmt.Sprintf(
 			description,
@@ -93,7 +98,7 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		},
 		Color: color,
 		Footer: &discordgo.MessageEmbedFooter{
-			Text: "カード画像はコピーして、Xでポストしてみよう！",
+			Text: text,
 		},
 	}
 
