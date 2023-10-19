@@ -126,5 +126,20 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		errors.SendErrMsg(s, errors.NewError("アラートを送信できません", err), m.Author)
 	}
 
+	// TODO: テスト用のため、以下は削除
+	{
+		if strings.Contains(m.Content, "!test") {
+			targetID := strings.Split(m.Content, " ")[1]
+			target, err := s.GuildMember(m.GuildID, targetID)
+			if err != nil {
+				errors.SendErrMsg(s, errors.NewError("テスト用の確認メッセージを送信できません", err), m.Author)
+			}
+
+			if _, err = s.ChannelMessageSend(internal.ChannelID().TEST, target.AvatarURL("")); err != nil {
+				errors.SendErrMsg(s, errors.NewError("テスト用の確認メッセージを送信できません", err), m.Author)
+			}
+		}
+	}
+
 	return
 }
