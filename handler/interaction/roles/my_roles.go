@@ -144,10 +144,6 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		if _, err = s.ChannelFileSend(i.Interaction.ChannelID, "image.jpg", imageReader); err != nil {
 			return errors.NewError("画像を送信できません", err)
 		}
-
-		//if _, err = s.ChannelMessageSend(i.Interaction.ChannelID, imageURL); err != nil {
-		//	return errors.NewError("画像を送信できません", err)
-		//}
 	}
 
 	return nil
