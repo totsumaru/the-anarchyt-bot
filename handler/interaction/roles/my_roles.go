@@ -1,7 +1,10 @@
 package roles
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"net/http"
 	"net/url"
 	"sort"
 	"strings"
@@ -123,9 +126,28 @@ func GetRoles(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 			point,
 		)
 
-		if _, err = s.ChannelMessageSend(i.Interaction.ChannelID, imageURL); err != nil {
+		// 画像URLからデータを取得
+		httpRes, err := http.Get(imageURL)
+		if err != nil {
+			return errors.NewError("画像を取得できません", err)
+		}
+		defer httpRes.Body.Close()
+
+		imageData, err := io.ReadAll(httpRes.Body)
+		if err != nil {
+			return errors.NewError("画像データの読み取り中にエラーが発生しました", err)
+		}
+
+		imageReader := bytes.NewReader(imageData)
+
+		// 画像データをDiscordに送信
+		if _, err = s.ChannelFileSend(i.Interaction.ChannelID, "image.jpg", imageReader); err != nil {
 			return errors.NewError("画像を送信できません", err)
 		}
+
+		//if _, err = s.ChannelMessageSend(i.Interaction.ChannelID, imageURL); err != nil {
+		//	return errors.NewError("画像を送信できません", err)
+		//}
 	}
 
 	return nil
