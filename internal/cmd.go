@@ -15,6 +15,7 @@ const (
 	CMD_ADD_SLASH_COMMAND               = "!an-add-cmd"            // スラッシュコマンドの追加
 	CMD_ADD_INVITE_ROLE                 = "!an-add-invite-role"    // 招待券ロールを付与
 	CMD_Send_Address_Panel              = "!an-send-address-panel" // アドレス集計のパネルを送信
+	CMD_Wallet_Output                   = "!an-wallet-output"      // アドレス集計
 )
 
 // スラッシュコマンド

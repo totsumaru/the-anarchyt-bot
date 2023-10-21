@@ -106,3 +106,16 @@ func FindByID(id string) (Wallet, error) {
 
 	return wallet, nil
 }
+
+// 全ての情報を取得します
+func FindAll() ([]Wallet, error) {
+	var wallets []Wallet
+
+	// 全てのレコードを取得
+	if err := DB.Find(&wallets).Error; err != nil {
+		// その他のエラーの場合
+		return nil, errors.NewError("全てのレコードの取得に失敗しました", err)
+	}
+
+	return wallets, nil
+}

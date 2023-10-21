@@ -77,6 +77,10 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 				"アドレス集計のパネルを送信できません", err,
 			), m.Author)
 		}
+	case internal.CMD_Wallet_Output:
+		if err := address.OutputAddresses(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("結果を送信できません", err), m.Author)
+		}
 	}
 
 	// ガチャパネルコマンド
