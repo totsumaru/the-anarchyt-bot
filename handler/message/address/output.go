@@ -12,7 +12,8 @@ import (
 // 現在の集計結果を出力します
 func OutputAddresses(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	// 出力できるチャンネルのみで実行できます
-	if m.ChannelID != internal.ChannelID().TEAM {
+	if m.ChannelID != internal.ChannelID().TEAM ||
+		m.ChannelID != internal.ChannelID().TEST {
 		return nil
 	}
 
