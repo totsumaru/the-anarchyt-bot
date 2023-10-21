@@ -44,7 +44,7 @@ func OutputAddresses(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		),
 	}
 
-	_, err = s.ChannelMessageSendEmbed(internal.ChannelID().TEAM, embed)
+	_, err = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 	if err != nil {
 		return errors.NewError("パネルメッセージを送信できません", err)
 	}
