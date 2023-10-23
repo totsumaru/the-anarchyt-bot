@@ -53,10 +53,20 @@ func UpsertFromModal(s *discordgo.Session, i *discordgo.InteractionCreate) error
 			if err = db.Remove(tx, i.Member.User.ID); err != nil {
 				return errors.NewError("削除に失敗しました", err)
 			}
+
+			// 提出済みロールを削除します
+			if err = s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, internal.RoleID().SUBMITTED); err != nil {
+				return errors.NewError("提出済みロールをremoveできません", err)
+			}
 		} else {
 			// 更新します
 			if err = db.Upsert(tx, i.Member.User.ID, addr, quantity); err != nil {
 				return errors.NewError("Upsertに失敗しました", err)
+			}
+
+			// 提出済みロールを追加します
+			if err = s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().SUBMITTED); err != nil {
+				return errors.NewError("提出済みロールを付与できません", err)
 			}
 		}
 
