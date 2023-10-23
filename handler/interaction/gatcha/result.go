@@ -299,11 +299,11 @@ func isWinner(member *discordgo.Member) (bool, error) {
 		// 当たりなし -> 1/5
 		return rand.Intn(5) == 0, nil
 	case 1:
-		// 当たり1回 -> 1/8
-		return rand.Intn(8) == 0, nil
+		// 当たり1回 -> 1/8 -> 1/6(AL登録前なので、1/6に変更)
+		return rand.Intn(6) == 0, nil
 	default:
-		// 当たり2回 -> 1/10
-		return rand.Intn(9) == 0, nil
+		// 当たり2回 -> 1/10 -> 1/6(AL登録前なので、1/6に変更)
+		return rand.Intn(6) == 0, nil
 	}
 }
 
