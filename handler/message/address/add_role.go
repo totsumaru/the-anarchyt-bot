@@ -1,6 +1,8 @@
 package address
 
 import (
+	"fmt"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -18,7 +20,15 @@ func AddSubmittedRole(s *discordgo.Session, m *discordgo.MessageCreate) error {
 		return errors.NewError("全ての情報を取得できません", err)
 	}
 
-	for _, wallet := range wallets {
+	for i, wallet := range wallets {
+		if i%50 == 0 {
+			if _, err = s.ChannelMessageSend(
+				m.ChannelID,
+				fmt.Sprintf("%d件が完了", i),
+			); err != nil {
+				return errors.NewError("途中経過メッセージを送信できません", err)
+			}
+		}
 		if err = s.GuildMemberRoleAdd(m.GuildID, wallet.ID, internal.RoleID().SUBMITTED); err != nil {
 			return errors.NewError("提出した人全員にロールを付与できません", err)
 		}
