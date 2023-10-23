@@ -24,6 +24,7 @@ type Role struct {
 	FOR_TEST_ATARI string // [検証用]ガチャ当たり100%
 	TOKYO_ANARCHY  string // 東京アナーキー
 	CHAINSAW_CLUB  string // チェンソー倶楽部
+	SUBMITTED      string // アドレス提出済み
 }
 
 // ロールID
@@ -52,6 +53,7 @@ func RoleID() Role {
 			FOR_TEST_ATARI: "1127478160460624042",
 			TOKYO_ANARCHY:  "1112319701742260284",
 			CHAINSAW_CLUB:  "1112319985960882296",
+			SUBMITTED:      "1166034627820015770",
 		}
 	} else {
 		// 本番環境
@@ -77,6 +79,7 @@ func RoleID() Role {
 			FOR_TEST_ATARI: "1127478160460624042",
 			TOKYO_ANARCHY:  "1112319701742260284",
 			CHAINSAW_CLUB:  "1112319985960882296",
+			SUBMITTED:      "1166034627820015770",
 		}
 	}
 }

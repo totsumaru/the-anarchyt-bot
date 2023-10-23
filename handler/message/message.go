@@ -81,6 +81,14 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err := address.OutputAddresses(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("結果を送信できません", err), m.Author)
 		}
+	case internal.CMD_Output_Csv:
+		if err := address.OutputCSV(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("CSVを出力できません", err), m.Author)
+		}
+	case internal.CMD_Add_Submitted_Role:
+		if err := address.AddSubmittedRole(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("提出ロールを付与できません", err), m.Author)
+		}
 	}
 
 	// ガチャパネルコマンド

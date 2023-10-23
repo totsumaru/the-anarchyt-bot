@@ -16,6 +16,8 @@ const (
 	CMD_ADD_INVITE_ROLE                 = "!an-add-invite-role"    // 招待券ロールを付与
 	CMD_Send_Address_Panel              = "!an-send-address-panel" // アドレス集計のパネルを送信
 	CMD_Wallet_Output                   = "!an-wallet-output"      // アドレス集計
+	CMD_Output_Csv                      = "!an-wallet-output-csv"  // 全てをcsvで出力します
+	CMD_Add_Submitted_Role              = "!an-add-submitted-role" // ウォレット提出ロールを付与します
 )
 
 // スラッシュコマンド
