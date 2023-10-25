@@ -24,8 +24,8 @@ func MaxMintQuantity(roles []string) int {
 		}
 	}
 
-	if res >= 4 {
-		return 4
+	if res >= 5 {
+		return 5
 	}
 
 	return res
