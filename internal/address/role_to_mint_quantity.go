@@ -12,6 +12,7 @@ var RoleMaxMintMap = map[string]int{
 	internal.RoleID().DIAMOND:       1,
 	internal.RoleID().CRAZY:         1,
 	internal.RoleID().CHAINSAW_CLUB: 1,
+	internal.RoleID().PHYSICAL:      1,
 }
 
 // Mint上限を取得します

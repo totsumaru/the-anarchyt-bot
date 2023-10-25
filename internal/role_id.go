@@ -26,6 +26,7 @@ type Role struct {
 	CHAINSAW_CLUB   string // チェンソー倶楽部
 	SUBMITTED       string // アドレス提出済み
 	FIRST_SUBMITTED string // 最初にアドレス提出した人
+	PHYSICAL        string // フィジカルグッズ購入者
 }
 
 // ロールID
@@ -56,6 +57,7 @@ func RoleID() Role {
 			CHAINSAW_CLUB:   "1112319985960882296",
 			SUBMITTED:       "1166034627820015770",
 			FIRST_SUBMITTED: "1166540813384306758",
+			PHYSICAL:        "1166558275706302484",
 		}
 	} else {
 		// 本番環境
@@ -83,6 +85,7 @@ func RoleID() Role {
 			CHAINSAW_CLUB:   "1112319985960882296",
 			SUBMITTED:       "1166034627820015770",
 			FIRST_SUBMITTED: "1166540813384306758",
+			PHYSICAL:        "1166558275706302484",
 		}
 	}
 }
