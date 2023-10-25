@@ -18,6 +18,7 @@ const (
 	CMD_Wallet_Output                   = "!an-wallet-output"      // アドレス集計
 	CMD_Output_Csv                      = "!an-wallet-output-csv"  // 全てをcsvで出力します
 	CMD_Add_Submitted_Role              = "!an-add-submitted-role" // ウォレット提出ロールを付与します
+	CMD_Add_First_Wallet_Submit         = "!an-add-first-wallet"   // 第一弾に提出した人
 )
 
 // スラッシュコマンド

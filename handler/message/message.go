@@ -89,6 +89,10 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err := address.AddSubmittedRole(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("提出ロールを付与できません", err), m.Author)
 		}
+	case internal.CMD_Add_First_Wallet_Submit:
+		if err := address.AddFirstWalletSubmittedRole(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("ロールを付与できません", err), m.Author)
+		}
 	}
 
 	// ガチャパネルコマンド
