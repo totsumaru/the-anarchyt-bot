@@ -51,10 +51,10 @@ func AddFirstWalletSubmittedRole(s *discordgo.Session, m *discordgo.MessageCreat
 			}
 			count++
 		}
+	}
 
-		if _, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%d人にロールを付与しました。", count)); err != nil {
-			return errors.NewError("メッセージを送信できません")
-		}
+	if _, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%d人にロールを付与しました。", count)); err != nil {
+		return errors.NewError("メッセージを送信できません")
 	}
 
 	return nil
