@@ -9,6 +9,7 @@ import (
 	"github.com/techstart35/the-anarchy-bot/handler/message/alert"
 	"github.com/techstart35/the-anarchy-bot/handler/message/command"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
+	"github.com/techstart35/the-anarchy-bot/handler/message/image"
 	"github.com/techstart35/the-anarchy-bot/handler/message/info"
 	"github.com/techstart35/the-anarchy-bot/handler/message/invitation"
 	"github.com/techstart35/the-anarchy-bot/handler/message/news"
@@ -92,6 +93,13 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	case internal.CMD_Add_First_Wallet_Submit:
 		if err := address.AddFirstWalletSubmittedRole(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("ロールを付与できません", err), m.Author)
+		}
+	}
+
+	// NFTの画像を送信
+	if m.ChannelID == "1177590063979302953" {
+		if err := image.SendImage(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("画像を送信できません", err), m.Author)
 		}
 	}
 
