@@ -28,8 +28,17 @@ func SendImage(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	}
 	defer resp.Body.Close()
 
-	// 画像データを送信
-	_, err = s.ChannelFileSend(m.ChannelID, "image.gif", resp.Body)
+	// 画像を返信メッセージとして送信
+	msg := discordgo.MessageSend{
+		Reference: m.Reference(),
+		Files: []*discordgo.File{
+			{
+				Name:   "image.gif",
+				Reader: resp.Body,
+			},
+		},
+	}
+	_, err = s.ChannelMessageSendComplex(m.ChannelID, &msg)
 	if err != nil {
 		return err
 	}
