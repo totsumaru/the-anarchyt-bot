@@ -14,7 +14,7 @@ const BaseImageUrl = "https://arweave.net/OhewBZDW1nsLB0Cmq65YjrKMaIiRizUM3xr3Q7
 func SendImage(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	// メッセージの内容を数値として解析
 	number, err := strconv.Atoi(m.Content)
-	if err != nil || number < 1 || number > 555 {
+	if err != nil || number < 1 || number > 571 {
 		return nil // 数字でない、または範囲外の場合は何もしない
 	}
 
