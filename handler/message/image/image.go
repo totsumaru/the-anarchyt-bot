@@ -10,6 +10,13 @@ import (
 
 const BaseImageUrl = "https://arweave.net/OhewBZDW1nsLB0Cmq65YjrKMaIiRizUM3xr3Q7h6xZc"
 
+var idToTrueID = map[int]int{
+	86:  89,
+	89:  86,
+	182: 184,
+	184: 182,
+}
+
 // 画像を送信します
 func SendImage(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	// メッセージの内容を数値として解析
@@ -19,6 +26,9 @@ func SendImage(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	}
 
 	// 画像のURLを構築
+	if _, ok := idToTrueID[number]; ok {
+		number = idToTrueID[number]
+	}
 	imageUrl := fmt.Sprintf("%s/%d.gif", BaseImageUrl, number)
 
 	// 画像データを取得
