@@ -21,7 +21,7 @@ var idToTrueID = map[int]int{
 func SendImage(s *discordgo.Session, m *discordgo.MessageCreate) error {
 	// メッセージの内容を数値として解析
 	number, err := strconv.Atoi(m.Content)
-	if err != nil || number < 1 || number > 586 {
+	if err != nil || number < 1 || number > 587 {
 		return nil // 数字でない、または範囲外の場合は何もしない
 	}
 
