@@ -1,6 +1,8 @@
 package free_mint
 
 import (
+	"fmt"
+
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/internal"
@@ -25,7 +27,7 @@ func FreeMint(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 	description := ""
 
 	if hasSubmitted && hasHolder {
-		description = MintURL
+		description = fmt.Sprintf("FreeMintのURLはこちらです\nキーワード: Anarchy\n%s", MintURL)
 	} else {
 		description = "ホルダーかつ第一弾提出済みの人のみが参加可能です"
 	}
