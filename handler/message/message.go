@@ -8,6 +8,7 @@ import (
 	"github.com/techstart35/the-anarchy-bot/handler/message/address"
 	"github.com/techstart35/the-anarchy-bot/handler/message/alert"
 	"github.com/techstart35/the-anarchy-bot/handler/message/command"
+	"github.com/techstart35/the-anarchy-bot/handler/message/free_mint"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
 	"github.com/techstart35/the-anarchy-bot/handler/message/image"
 	"github.com/techstart35/the-anarchy-bot/handler/message/info"
@@ -93,6 +94,10 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	case internal.CMD_Add_First_Wallet_Submit:
 		if err := address.AddFirstWalletSubmittedRole(s, m); err != nil {
 			errors.SendErrMsg(s, errors.NewError("ロールを付与できません", err), m.Author)
+		}
+	case "!free-mint":
+		if err := free_mint.SendFreeMintPanel(s, m); err != nil {
+			errors.SendErrMsg(s, errors.NewError("パネルを送信できません", err), m.Author)
 		}
 	}
 

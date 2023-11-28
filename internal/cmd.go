@@ -43,4 +43,6 @@ const (
 	// Address集計
 	Interaction_CustomID_Address_Modal_Open = "address-modal-open"
 	Interaction_CustomID_Address_Check      = "address-check"
+	// フリーミント
+	Interaction_CustomID_FreeMint = "free-mint"
 )
