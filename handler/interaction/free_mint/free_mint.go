@@ -3,6 +3,7 @@ package free_mint
 import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
+	"github.com/techstart35/the-anarchy-bot/internal"
 )
 
 const MintURL = "https://0xspread.com/0x12d72cC8/fa40a5ea-b9bc-46bc-bf4e-d0529fc88fcb"
@@ -21,16 +22,29 @@ func FreeMint(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		}
 	}
 
+	description := ""
+
 	if hasSubmitted && hasHolder {
-		_, err := s.ChannelMessageSend(i.ChannelID, MintURL)
-		if err != nil {
-			return errors.NewError("メッセージの送信に失敗しました", err)
-		}
+		description = MintURL
 	} else {
-		_, err := s.ChannelMessageSend(i.ChannelID, "ホルダーかつ第一弾提出済みの人のみが参加可能です")
-		if err != nil {
-			return errors.NewError("メッセージの送信に失敗しました", err)
-		}
+		description = "ホルダーかつ第一弾提出済みの人のみが参加可能です"
+	}
+
+	embed := &discordgo.MessageEmbed{
+		Description: description,
+		Color:       internal.ColorBlue,
+	}
+
+	resp := &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Embeds: []*discordgo.MessageEmbed{embed},
+			Flags:  discordgo.MessageFlagsEphemeral,
+		},
+	}
+
+	if err := s.InteractionRespond(i.Interaction, resp); err != nil {
+		return errors.NewError("レスポンスを送信できません", err)
 	}
 
 	return nil
