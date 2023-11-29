@@ -6,7 +6,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/techstart35/the-anarchy-bot/errors"
 	"github.com/techstart35/the-anarchy-bot/handler/message/address"
-	"github.com/techstart35/the-anarchy-bot/handler/message/alert"
 	"github.com/techstart35/the-anarchy-bot/handler/message/command"
 	"github.com/techstart35/the-anarchy-bot/handler/message/free_mint"
 	"github.com/techstart35/the-anarchy-bot/handler/message/gatcha"
@@ -148,11 +147,6 @@ func MessageCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// ハズレの人に2枚目のコインロールを付与
 	if err := gatcha.AddSecondCoinRoleForHazureUser(s, m); err != nil {
 		errors.SendErrMsg(s, errors.NewError("2枚目のコインロールを付与できません", err), m.Author)
-	}
-
-	// アラートを送信
-	if err := alert.SendAlert(s, m); err != nil {
-		errors.SendErrMsg(s, errors.NewError("アラートを送信できません", err), m.Author)
 	}
 
 	return
