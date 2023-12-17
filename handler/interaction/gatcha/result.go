@@ -169,6 +169,7 @@ var nextRankRoleID = map[string]string{
 	internal.RoleID().GOLD:     internal.RoleID().PLATINUM,
 	internal.RoleID().PLATINUM: internal.RoleID().DIAMOND,
 	internal.RoleID().DIAMOND:  internal.RoleID().CRAZY,
+	internal.RoleID().CRAZY:    internal.RoleID().FUCKIN,
 }
 
 // 当たりロールを付与します
@@ -177,14 +178,27 @@ var nextRankRoleID = map[string]string{
 // 新規で付与したロールIDを返します。
 func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string, error) {
 	var (
-		prizeRoleNum      int                   // 当たりロールの数
-		currentRankRoleID = CurrentRankRoleNone // 現在のAL,Gold,Silver...ロールのID
+		currentPrizeRoleNum int                   // 現在の当たりロールの数
+		currentRankRoleID   = CurrentRankRoleNone // 現在のAL,Gold,Silver...ロールのID
 	)
 
 	for _, role := range i.Member.Roles {
 		switch role {
-		case internal.RoleID().PRIZE1, internal.RoleID().PRIZE2:
-			prizeRoleNum++
+		case internal.RoleID().PRIZE1,
+			internal.RoleID().PRIZE2,
+			internal.RoleID().PRIZE3,
+			internal.RoleID().PRIZE4,
+			internal.RoleID().PRIZE5,
+			internal.RoleID().PRIZE6,
+			internal.RoleID().PRIZE7,
+			internal.RoleID().PRIZE8,
+			internal.RoleID().PRIZE9,
+			internal.RoleID().PRIZE10,
+			internal.RoleID().PRIZE11,
+			internal.RoleID().PRIZE12,
+			internal.RoleID().PRIZE13,
+			internal.RoleID().PRIZE14:
+			currentPrizeRoleNum++
 		case internal.RoleID().AL:
 			// ALは他のランクロールと共存する可能性があるため、
 			// currentRankRoleIDが`none`の場合のみ設定できる
@@ -196,7 +210,8 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string
 			internal.RoleID().GOLD,
 			internal.RoleID().PLATINUM,
 			internal.RoleID().DIAMOND,
-			internal.RoleID().CRAZY:
+			internal.RoleID().CRAZY,
+			internal.RoleID().FUCKIN:
 			currentRankRoleID = role
 		}
 	}
@@ -204,7 +219,7 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string
 	var addedRoleID string
 
 	// 当たりロールを正しい状態に変更します
-	switch prizeRoleNum {
+	switch currentPrizeRoleNum {
 	case 0:
 		addRoleID := internal.RoleID().PRIZE1
 		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
@@ -218,6 +233,15 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string
 		}
 		addedRoleID = addRoleID
 	case 2:
+		// 現在CRAZYの場合は、当たり3を付与します
+		if currentRankRoleID == internal.RoleID().CRAZY {
+			// 次のランクのロールを付与します
+			if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().PRIZE3); err != nil {
+				return "", errors.NewError("新しいランクロールを付与できません", err)
+			}
+			break
+		}
+
 		nextRank, ok := nextRankRoleID[currentRankRoleID]
 
 		// 現在のランクがMAXの場合は以下の処理をスキップします
@@ -247,15 +271,82 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string
 				}
 			}
 		}
-	}
-
-	// 招待券を付与します
-	{
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().INVITATION1); err != nil {
+	case 3:
+		addRoleID := internal.RoleID().PRIZE4
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
 			return "", errors.NewError("ロールを付与できません", err)
 		}
-		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, internal.RoleID().INVITATION2); err != nil {
+		addedRoleID = addRoleID
+	case 4:
+		addRoleID := internal.RoleID().PRIZE5
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
 			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 5:
+		addRoleID := internal.RoleID().PRIZE6
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 6:
+		addRoleID := internal.RoleID().PRIZE7
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 7:
+		addRoleID := internal.RoleID().PRIZE8
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 8:
+		addRoleID := internal.RoleID().PRIZE9
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 9:
+		addRoleID := internal.RoleID().PRIZE10
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 10:
+		addRoleID := internal.RoleID().PRIZE11
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 11:
+		addRoleID := internal.RoleID().PRIZE12
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 12:
+		addRoleID := internal.RoleID().PRIZE13
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 13:
+		addRoleID := internal.RoleID().PRIZE14
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+	case 14:
+		addRoleID := internal.RoleID().FUCKIN
+		if err := s.GuildMemberRoleAdd(i.GuildID, i.Member.User.ID, addRoleID); err != nil {
+			return "", errors.NewError("ロールを付与できません", err)
+		}
+		addedRoleID = addRoleID
+
+		// CRAZY(current)ロールを削除します
+		if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
+			return "", errors.NewError("現在のランクロールを削除できません", err)
 		}
 	}
 
