@@ -344,9 +344,28 @@ func addWinnerRole(s *discordgo.Session, i *discordgo.InteractionCreate) (string
 		}
 		addedRoleID = addRoleID
 
-		// CRAZY(current)ロールを削除します
-		if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, currentRankRoleID); err != nil {
-			return "", errors.NewError("現在のランクロールを削除できません", err)
+		// 当たりロールを全て削除します
+		prizeRoles := []string{
+			currentRankRoleID, // CRAZYロール
+			internal.RoleID().PRIZE1,
+			internal.RoleID().PRIZE2,
+			internal.RoleID().PRIZE3,
+			internal.RoleID().PRIZE4,
+			internal.RoleID().PRIZE5,
+			internal.RoleID().PRIZE6,
+			internal.RoleID().PRIZE7,
+			internal.RoleID().PRIZE8,
+			internal.RoleID().PRIZE9,
+			internal.RoleID().PRIZE10,
+			internal.RoleID().PRIZE11,
+			internal.RoleID().PRIZE12,
+			internal.RoleID().PRIZE13,
+			internal.RoleID().PRIZE14,
+		}
+		for _, prizeRoleID := range prizeRoles {
+			if err := s.GuildMemberRoleRemove(i.GuildID, i.Member.User.ID, prizeRoleID); err != nil {
+				return "", errors.NewError("ロールを削除できません", err)
+			}
 		}
 	}
 
