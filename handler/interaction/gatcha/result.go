@@ -109,16 +109,9 @@ func createWinnerMessage() *discordgo.MessageEmbed {
 
 おめでとうございます！
 ロールを獲得しました！！
-
----
-<#%s>で**2人まで**お友達を招待できるよ。
-招待券は、上書きされる前に早めに使ってね。
 `
 	embed := &discordgo.MessageEmbed{
-		Description: fmt.Sprintf(
-			description,
-			internal.ChannelID().INVITATION_LINK,
-		),
+		Description: description,
 		Image: &discordgo.MessageEmbedImage{
 			URL: "https://cdn.discordapp.com/attachments/1103240223376293938/1116312750277263390/atari.png",
 		},
