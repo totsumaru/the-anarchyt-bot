@@ -31,6 +31,7 @@ func SendCapsule(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Label:    "カプセルを開ける",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_gatcha_Open,
+		Emoji:    discordgo.ComponentEmoji{Name: "▶️"},
 	}
 
 	actions := discordgo.ActionsRow{

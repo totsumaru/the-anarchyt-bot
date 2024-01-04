@@ -17,6 +17,7 @@ func SendNoticeRoleMessage(s *discordgo.Session, i *discordgo.InteractionCreate)
 			Label:    "通知ロールを削除する",
 			Style:    discordgo.PrimaryButton,
 			CustomID: internal.Interaction_CustomID_gatcha_Notice_Remove,
+			Emoji:    discordgo.ComponentEmoji{Name: "▶️"},
 		}
 
 		actions := discordgo.ActionsRow{

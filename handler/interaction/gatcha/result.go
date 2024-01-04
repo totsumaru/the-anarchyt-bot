@@ -75,6 +75,7 @@ func SendResult(s *discordgo.Session, i *discordgo.InteractionCreate) error {
 		Label: "Xにポスト",
 		Style: discordgo.LinkButton,
 		URL:   "https://twitter.com/intent/tweet?text=" + url.QueryEscape("#アナーキー"),
+		Emoji: discordgo.ComponentEmoji{Name: "▶️"},
 	}
 
 	components := []discordgo.MessageComponent{btn1}
