@@ -20,6 +20,7 @@ func SendPanel(s *discordgo.Session, m *discordgo.MessageCreate, currentPanelURL
 		Label:    "ガチャを回す！",
 		Style:    discordgo.PrimaryButton,
 		CustomID: internal.Interaction_CustomID_gatcha_Go,
+		Emoji:    discordgo.ComponentEmoji{Name: "▶️"},
 	}
 
 	btn2 := discordgo.Button{
